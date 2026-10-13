@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preschool Fun-packed Book</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Fredoka -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Fredoka', cursive, sans-serif;
+            background: linear-gradient(-45deg, #FFDEE9, #B5FFFC, #E0C3FC, #8EC5FC, #FFE53B);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Top & Bottom Rainbow Stripes */
+        .rainbow-bar {
+            background: linear-gradient(90deg, 
+                #FF9AA2 0%, #FF9AA2 16.6%, 
+                #FFB7B2 16.6%, #FFB7B2 33.3%, 
+                #FFDAC1 33.3%, #FFDAC1 50%, 
+                #E2F0CB 50%, #E2F0CB 66.6%, 
+                #B5EAD7 66.6%, #B5EAD7 83.3%, 
+                #C7CEEA 83.3%, #C7CEEA 100%);
+            height: 12px;
+        }
+
+        /* 3D Ring Book Perspective Perspective Container */
+        .book-perspective {
+            perspective: 1200px;
+        }
+
+        .ring-book-container {
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(-8deg) rotateX(3deg);
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s ease;
+            box-shadow: 
+                -12px 18px 35px rgba(0, 0, 0, 0.18),
+                -3px 6px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px 26px 26px 8px;
+        }
+
+        .ring-book-container:hover {
+            transform: rotateY(-2deg) rotateX(1deg) scale(1.02);
+            box-shadow: 
+                -18px 25px 45px rgba(0, 0, 0, 0.22),
+                -4px 10px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Paper Pages Depth Effect behind the main cover */
+        .book-pages-stack {
+            position: absolute;
+            top: 8px;
+            left: 14px;
+            right: -12px;
+            bottom: 8px;
+            background: #FFFFFF;
+            border-radius: 4px 22px 22px 4px;
+            box-shadow: 
+                3px 3px 0 #E2E8F0,
+                6px 6px 0 #CBD5E1,
+                10px 10px 0 #94A3B8,
+                13px 13px 0 #E2E8F0;
+            z-index: 1;
+        }
+
+        /* Hole Punching on Left Binder Edge */
+        .binder-hole {
+            width: 14px;
+            height: 14px;
+            background: #1E293B;
+            border-radius: 50%;
+            box-shadow: inset 1px 1.5px 3px rgba(0,0,0,0.9), 0.5px 0.5px 1px rgba(255,255,255,0.7);
+        }
+
+        /* Metallic Ring Clips */
+        .metallic-ring {
+            position: absolute;
+            left: -18px;
+            width: 38px;
+            height: 18px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #94A3B8 35%, #334155 60%, #E2E8F0 100%);
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.35);
+            z-index: 30;
+            transform: rotate(-3deg);
+        }
+
+        /* Floating background items */
+        @keyframes floatItem {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-16px) rotate(6deg); }
+        }
+        .animate-float {
+            animation: floatItem 5s ease-in-out infinite;
+        }
+
+        @keyframes pulseCTA {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 30px -5px rgba(236, 72, 153, 0.6); }
+            50% { transform: scale(1.07); box-shadow: 0 20px 40px 0px rgba(236, 72, 153, 0.8); }
+        }
+        .btn-cta-pulse {
+            animation: pulseCTA 2.2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="flex flex-col justify-between items-center relative selection:bg-pink-300">
+
+    <div class="rainbow-bar w-full fixed top-0 z-50"></div>
+
+    <!-- Floating Background Decor Elements -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute top-12 left-10 text-white/80 text-7xl animate-float" style="animation-delay: 0s;">
+            <i class="fa-solid fa-cloud drop-shadow-md"></i>
+        </div>
+        <div class="absolute top-24 right-12 text-white/80 text-8xl animate-float" style="animation-delay: 2s;">
+            <i class="fa-solid fa-cloud drop-shadow-md"></i>
+        </div>
+        <div class="absolute bottom-24 left-16 text-yellow-300 text-5xl animate-bounce" style="animation-duration: 3s;">
+            ⭐
+        </div>
+        <div class="absolute bottom-36 right-20 text-purple-400 text-5xl animate-bounce" style="animation-duration: 2.5s;">
+            ✨
+        </div>
+        <div class="absolute top-1/3 left-8 text-pink-400/90 text-4xl animate-float" style="animation-delay: 1s;">🎈</div>
+        <div class="absolute top-1/2 right-10 text-sky-400/90 text-4xl animate-float" style="animation-delay: 3s;">🎨</div>
+        <div class="absolute bottom-12 left-1/3 text-emerald-400/80 text-3xl animate-float" style="animation-delay: 1.5s;">🧸</div>
+    </div>
+
+    <main class="relative z-10 w-full max-w-4xl px-4 py-8 flex flex-col items-center justify-center min-h-screen">
+        
+        <!-- 3D Ring Book Perspective Frame -->
+        <div class="book-perspective my-auto py-4 w-full flex justify-center">
+            <div class="relative w-full max-w-xs sm:max-w-md md:max-w-lg">
+                
+                <!-- Underneath Paper Pages Stack -->
+                <div class="book-pages-stack"></div>
+
+                <!-- Main Ring Book Cover Surface -->
+                <div class="ring-book-container relative bg-white border-2 border-slate-200 rounded-r-3xl p-3 pl-8 z-10 overflow-hidden">
+                    
+                    <!-- Left Binder Holes Column -->
+                    <div class="absolute left-3 top-0 bottom-0 flex flex-col justify-between py-6 z-20">
+                        <div class="binder-hole"></div>
+                        <div class="binder-hole"></div>
+                        <div class="binder-hole"></div>
+                        <div class="binder-hole"></div>
+                        <div class="binder-hole"></div>
+                        <div class="binder-hole"></div>
+                        <div class="binder-hole"></div>
+                        <div class="binder-hole"></div>
+                        <div class="binder-hole"></div>
+                        <div class="binder-hole"></div>
+                        <div class="binder-hole"></div>
+                        <div class="binder-hole"></div>
+                    </div>
+
+                    <!-- Metallic Spiral Rings Overlay -->
+                    <div class="absolute left-0 top-0 bottom-0 flex flex-col justify-between py-5 z-30 pointer-events-none">
+                        <div class="metallic-ring" style="top: 22px;"></div>
+                        <div class="metallic-ring" style="top: 72px;"></div>
+                        <div class="metallic-ring" style="top: 122px;"></div>
+                        <div class="metallic-ring" style="top: 172px;"></div>
+                        <div class="metallic-ring" style="top: 222px;"></div>
+                        <div class="metallic-ring" style="top: 272px;"></div>
+                        <div class="metallic-ring" style="top: 322px;"></div>
+                        <div class="metallic-ring" style="top: 372px;"></div>
+                        <div class="metallic-ring" style="top: 422px;"></div>
+                        <div class="metallic-ring" style="top: 472px;"></div>
+                        <div class="metallic-ring" style="top: 522px;"></div>
+                        <div class="metallic-ring" style="top: 572px;"></div>
+                    </div>
+
+                    <!-- Front Page Cover Image -->
+                    <div class="relative rounded-2xl overflow-hidden border border-slate-100 bg-sky-50">
+                        <img 
+                            src="001CoverFun-packedBook_2.jpg" 
+                            alt="Preschool Home-school & School Fun-packed Book Cover" 
+                            class="w-full h-auto object-cover rounded-2xl block shadow-inner"
+                            onerror="this.onerror=null; this.src='001CoverFun-packedBook.jpg';"
+                        />
+                    </div>
+
+                    <!-- Glossy Light Reflection Effect -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-white/30 pointer-events-none rounded-r-3xl z-20"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Playful Call to Action Button at Bottom -->
+        <div class="mt-6 mb-4 text-center z-30">
+            <button 
+                id="funBeginBtn" 
+                onclick="onFunBeginClick()" 
+                class="btn-cta-pulse bg-gradient-to-r from-pink-500 via-purple-500 to-sky-500 hover:from-pink-600 hover:via-purple-600 hover:to-sky-600 text-white font-extrabold text-2xl md:text-4xl px-10 py-5 rounded-full border-4 border-white shadow-2xl transform active:scale-95 transition-all duration-300 flex items-center justify-center gap-3 mx-auto cursor-pointer group">
+                <span class="group-hover:rotate-180 transition-transform duration-500">🎈</span>
+                <span>Let the FUN begins</span>
+                <span class="group-hover:rotate-180 transition-transform duration-500">✨</span>
+            </button>
+            <p class="text-xs md:text-sm font-bold text-slate-600 mt-3 flex items-center justify-center gap-2 tracking-wide">
+                <i class="fa-solid fa-sparkles text-amber-400"></i> Tap to start the adventure!
+            </p>
+        </div>
+
+    </main>
+
+    <!-- Bottom Rainbow Bar -->
+    <div class="rainbow-bar w-full fixed bottom-0 z-50"></div>
+
+    <script>
+        // Synthesize Happy Chimes / Ta-Da sound effect using Web Audio API
+        function playHappyChime() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+
+                // Frequencies for a cheerful major arpeggio (C5, E5, G5, C6)
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                
+                notes.forEach((freq, index) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime + index * 0.1);
+
+                    gain.gain.setValueAtTime(0, ctx.currentTime + index * 0.1);
+                    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + index * 0.1 + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + index * 0.1 + 0.6);
+
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc.start(ctx.currentTime + index * 0.1);
+                    osc.stop(ctx.currentTime + index * 0.1 + 0.65);
+                });
+            } catch (e) {
+                console.log("Audio Context initialized on user interaction", e);
+            }
+        }
+
+        // Voice Speech synthesis helper
+        function speakGreeting() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance("Let the fun begin!");
+                utterance.rate = 0.95;
+                utterance.pitch = 1.3;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Confetti Burst Helper
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                // Center burst
+                confetti({
+                    particleCount: 100,
+                    spread: 80,
+                    origin: { y: 0.8 },
+                    colors: ['#FF9AA2', '#FFB7B2', '#FFDAC1', '#E2F0CB', '#B5EAD7', '#C7CEEA', '#FACC15']
+                });
+
+                // Side cannons delay
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 50,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 }
+                    });
+                    confetti({
+                        particleCount: 50,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 }
+                    });
+                }, 200);
+            }
+        }
+
+        // Trigger action on CTA click
+        function onFunBeginClick() {
+            playHappyChime();
+            speakGreeting();
+            triggerConfetti();
+        }
+    </script>
+</body>
+</html>
