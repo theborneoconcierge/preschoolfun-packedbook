@@ -8,12 +8,13 @@
   <style>
     :root { color-scheme: light; font-family: "Trebuchet MS", "Arial Rounded MT Bold", system-ui, sans-serif; }
     * { box-sizing: border-box; }
-    html, body { margin: 0; width: 100%; min-height: 100%; overflow-x: hidden; }
+    html, body { margin: 0; padding: 0; width: 100dvw; height: 100dvh; overflow: hidden; }
     body { background: #49b9f5; }
     button { font: inherit; }
-    .cover { position: relative; isolation: isolate; width: 100%; height: 100vh; height: 100dvh; overflow: hidden; background: #49b9f5; }
-    .cover::before { content: ""; position: absolute; z-index: -1; inset: -24px; background: url("wide_colorful_cute_3d_cgi_cartoon_illustration_i.png") center / cover no-repeat; filter: blur(18px) brightness(.84) saturate(1.08); transform: scale(1.04); }
-    .artwork { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; display: block; }
+    .cover { position: fixed; inset: 0; width: 100dvw; height: 100dvh; margin: 0; padding: 0; border: 0; overflow: hidden; background: #49b9f5; }
+    .cover::before { display: none; }
+    .cover > picture { position: absolute; inset: 0; display: block; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; }
+    .artwork { position: absolute; left: 50%; top: 50%; display: block; width: 100dvw; height: auto; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; object-fit: contain; object-position: center; transform: translate(-50%, -50%); }
     .artwork::selection { background: transparent; }
     .decorations { position: absolute; z-index: 2; overflow: hidden; pointer-events: none; }
     .butterfly { position: absolute; width: clamp(18px, calc(var(--art-scale, 1) * 34px), 36px); aspect-ratio: 1.25; filter: drop-shadow(0 2px 2px #31578155); animation: butterfly-drift 7.8s ease-in-out infinite; will-change: transform; }
@@ -61,18 +62,25 @@
       .voice-toggle { position: fixed; top: calc(max(12px, env(safe-area-inset-top)) + 50px); right: max(12px, env(safe-area-inset-right)); min-width: 104px; min-height: 40px; font-size: .85rem; }
       .activities { grid-template-columns: 1fr; }
     }
-    @media (max-width: 600px) and (orientation: portrait) {
-      /* Fill the phone viewport with the complete tall cover; the music control overlays its printed badge. */
-      .cover { height: 100vh; height: 100dvh; min-height: 0; margin: 0; padding: 0; background: radial-gradient(ellipse at 50% 46%, #fff8d8 0%, #e6f9ff 48%, #b8e7fb 100%); }
-      .cover::before { display: none; }
-      .cover > picture { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
-      .artwork { position: relative; inset: auto; display: block; width: 98%; height: auto; max-width: 98%; max-height: 100%; object-fit: contain; object-position: center; }
+    @media (min-width: 701px) and (max-width: 1100px) and (min-height: 601px) and (orientation: landscape) {
+      .artwork { width: max(100dvw, 133.333dvh); }
+    }
+    @media (min-width: 1101px) and (orientation: landscape) {
+      .cover { inset: 0; width: 100dvw; height: 100dvh; background: transparent; }
+      .artwork { left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transform: none; }
     }
     @media (max-width: 700px) and (orientation: landscape) {
-      .cover { height: auto; min-height: 100dvh; overflow: visible; }
-      .artwork { position: relative; inset: auto; width: 100%; height: auto; object-fit: contain; }
       .music-toggle { position: fixed; top: max(12px, env(safe-area-inset-top)); right: 12px; min-width: 104px; min-height: 44px; font-size: .9rem; }
       .voice-toggle { position: fixed; top: calc(max(12px, env(safe-area-inset-top)) + 50px); right: 12px; min-width: 104px; min-height: 40px; font-size: .85rem; }
+    }
+    @media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+      .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: cover; object-position: center; transform: none; }
+    }
+    @media (min-width: 601px) and (max-width: 1100px) and (orientation: portrait) {
+      .artwork { width: max(100dvw, 75dvh); }
+    }
+    @media (max-width: 600px) and (orientation: portrait) {
+      .artwork { width: max(100dvw, 44.65dvh); }
     }
     @media (prefers-reduced-motion: no-preference) {
       .music-toggle { animation: floaty 4s ease-in-out infinite; }
@@ -84,8 +92,12 @@
 <body>
   <main class="cover" id="cover" aria-label="Preschool Fun-packed Book cover">
     <picture>
-      <source media="(max-width: 600px) and (orientation: portrait)" srcset="Preschool%20Garden%20Adventure%20Cover.png">
-      <img class="artwork" id="artwork" src="wide_colorful_cute_3d_cgi_cartoon_illustration_i.png" alt="A cheerful preschool girl holding her fun-packed book tablet, with a teddy bear, bunny, rainbow playground, toys and a Let the FUN begin button">
+      <source media="(max-width: 600px) and (orientation: portrait)" srcset="page1-mobile-portrait.png">
+      <source media="(max-width: 1100px) and (max-height: 600px) and (orientation: landscape)" srcset="page1-mobile-landscape.png">
+      <source media="(min-width: 601px) and (max-width: 1100px) and (orientation: portrait)" srcset="page1-tablet-portrait.png">
+      <source media="(min-width: 701px) and (max-width: 1100px) and (min-height: 601px) and (orientation: landscape)" srcset="page1-tablet-landscape-4x3.png">
+      <source media="(min-width: 1101px) and (orientation: landscape)" srcset="page1-tablet-landscape.png">
+      <img class="artwork" id="artwork" src="page1-tablet-landscape.png" alt="A cheerful preschool girl holding her fun-packed book tablet, with a teddy bear, bunny, rainbow playground, toys and a Let the FUN begin button">
     </picture>
     <div class="decorations" id="decorations" aria-hidden="true">
       <span class="butterfly" data-x="185" data-y="285" data-phone-x="140" data-phone-y="280"><svg viewBox="0 0 32 26" aria-hidden="true"><path class="wing wing-left" fill="#ff86b9" stroke="#fff1fa" stroke-width="1.4" d="M16 13C12 7 5 1 2 5c-3 5 2 11 12 10-7 2-9 6-6 8 3 2 7-2 8-7z"/><path class="wing wing-right" fill="#ffd56b" stroke="#fff8d6" stroke-width="1.4" d="M16 13c4-6 11-12 14-8 3 5-2 11-12 10 7 2 9 6 6 8-3 2-7-2-8-7z"/><path d="M16 10v12" stroke="#74406e" stroke-width="1.5" stroke-linecap="round"/><path d="M15 10c-2-4-4-4-5-4m7 4c2-4 4-4 5-4" fill="none" stroke="#74406e" stroke-width="1" stroke-linecap="round"/></svg></span>
@@ -125,6 +137,7 @@
       const back = document.getElementById('back');
       let voiceMuted = false;
       let lastVoiceTrigger = -Infinity;
+      let page2NavigationPending = false;
       function placeDecorations() {
         if (!artwork.naturalWidth || !artwork.naturalHeight) return;
         const box = artwork.getBoundingClientRect();
@@ -154,12 +167,27 @@
         if (!artwork.naturalWidth) return;
         const box = artwork.getBoundingClientRect();
         const sourceWidth = artwork.naturalWidth, sourceHeight = artwork.naturalHeight;
-        const scale = Math.min(box.width / sourceWidth, box.height / sourceHeight);
+        const laptopCover = window.matchMedia('(min-width: 1101px) and (orientation: landscape)').matches;
+        const mobileLandscape = window.matchMedia('(max-width: 1100px) and (max-height: 600px) and (orientation: landscape)').matches;
+        const mobilePortrait = window.matchMedia('(max-width: 600px) and (orientation: portrait)').matches;
+        const tabletLandscape = window.matchMedia('(min-width: 701px) and (max-width: 1100px) and (min-height: 601px) and (orientation: landscape)').matches;
+        const tabletPortrait = window.matchMedia('(min-width: 601px) and (max-width: 1100px) and (orientation: portrait)').matches;
+        const scale = laptopCover || mobileLandscape
+          ? Math.max(box.width / sourceWidth, box.height / sourceHeight)
+          : Math.min(box.width / sourceWidth, box.height / sourceHeight);
         const drawnWidth = sourceWidth * scale, drawnHeight = sourceHeight * scale;
         const offsetX = (box.width - drawnWidth) / 2, offsetY = (box.height - drawnHeight) / 2;
-        const button = sourceHeight > sourceWidth
-          ? { x1: 365, y1: 1445, x2: 840, y2: 1705 }
-          : { x1: 1000, y1: 705, x2: 1510, y2: 960 };
+        const button = mobilePortrait
+          ? { x1: 535, y1: 1100, x2: 810, y2: 1335 }
+          : mobileLandscape
+            ? { x1: 560, y1: 205, x2: 720, y2: 322 }
+            : tabletPortrait
+          ? { x1: 330, y1: 1640, x2: 1205, y2: 1905 }
+          : tabletLandscape
+            ? { x1: 775, y1: 517, x2: 1120, y2: 706 }
+            : sourceHeight > sourceWidth
+              ? { x1: 365, y1: 1445, x2: 840, y2: 1705 }
+              : { x1: 850, y1: 388, x2: 1170, y2: 508 };
         const x1 = button.x1 * scale + offsetX, x2 = button.x2 * scale + offsetX;
         const y1 = button.y1 * scale + offsetY, y2 = button.y2 * scale + offsetY;
         start.style.left = `${box.left + x1}px`;
@@ -296,6 +324,7 @@
         if (playback && typeof playback.catch === 'function') {
           playback.catch(error => console.warn('Could not play the welcome voice:', error));
         }
+        return playback || null;
       }
 
       function clickSound() {
@@ -315,8 +344,21 @@
         if (event.key === 'Tab' || event.key === 'Enter' || event.key === ' ') start.classList.remove('pointer-focused');
       });
       start.addEventListener('click', () => {
-        playWelcomeVoice(); clickSound(); cover.classList.remove('sparkle'); void cover.offsetWidth; cover.classList.add('sparkle');
-        menu.classList.add('open'); menu.setAttribute('aria-hidden', 'false'); back.focus();
+        if (page2NavigationPending) return;
+        page2NavigationPending = true;
+        const playback = playWelcomeVoice();
+        clickSound(); cover.classList.remove('sparkle'); void cover.offsetWidth; cover.classList.add('sparkle');
+        const goToPage2 = () => {
+          if (!page2NavigationPending) return;
+          page2NavigationPending = false;
+          window.location.href = 'page2.html';
+        };
+        if (!playback) { goToPage2(); return; }
+        welcomeVoice.addEventListener('ended', goToPage2, { once: true });
+        welcomeVoice.addEventListener('error', goToPage2, { once: true });
+        const waitMs = Number.isFinite(welcomeVoice.duration) ? Math.ceil(welcomeVoice.duration * 1000 + 1500) : 10000;
+        window.setTimeout(goToPage2, waitMs);
+        if (typeof playback.catch === 'function') playback.catch(goToPage2);
       });
       back.addEventListener('click', () => {
         menu.classList.remove('open'); menu.setAttribute('aria-hidden', 'true'); start.focus();
