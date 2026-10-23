@@ -129,15 +129,15 @@
     }
     @media (pointer: coarse) and (orientation: portrait) and (max-height: 1000px) {
       .page { position: relative; z-index: 1; grid-template-rows: minmax(0, 1fr); width: 100dvw; height: 100dvh; gap: 0; background: transparent; }
-      .artboard { justify-self: stretch; align-self: stretch; width: 100dvw; height: 100dvh; margin: 0; aspect-ratio: auto; }
-      .artboard img { object-fit: cover; object-position: center; }
+      .artboard { justify-self: center; align-self: center; width: min(100dvw, calc(100dvh * 412 / 924)); height: auto; margin: 0; aspect-ratio: 412 / 924; }
+      .artboard img { object-fit: contain; object-position: center; }
       .panel-link { left: var(--x-portrait); top: var(--y-portrait); width: var(--w-portrait); height: var(--h-portrait); }
       body::before { display: block; z-index: 0; }
     }
     @media (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
       .page { position: relative; z-index: 1; grid-template-rows: minmax(0, 1fr); width: 100dvw; height: 100dvh; gap: 0; background: transparent; }
-      .artboard { justify-self: stretch; align-self: stretch; width: 100dvw; height: 100dvh; aspect-ratio: auto; }
-      .artboard img { object-fit: cover; object-position: center; }
+      .artboard { justify-self: center; align-self: center; width: min(100dvw, calc(100dvh * 924 / 412)); height: min(100dvh, calc(100dvw * 412 / 924)); aspect-ratio: 924 / 412; }
+      .artboard img { object-fit: contain; object-position: center; }
       body::before { display: block; z-index: 0; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -378,13 +378,12 @@
         [0.181, 0.497, 0.214, 0.188], [0.398, 0.497, 0.209, 0.188], [0.608, 0.497, 0.218, 0.188],
         [0.181, 0.690, 0.214, 0.195], [0.398, 0.690, 0.209, 0.195], [0.608, 0.690, 0.218, 0.195]
       ];
-      const board = artboard.getBoundingClientRect();
-      const scale = Math.max(board.width / artwork.naturalWidth, board.height / artwork.naturalHeight);
-      const drawnWidth = artwork.naturalWidth * scale, drawnHeight = artwork.naturalHeight * scale;
-      const offsetX = (board.width - drawnWidth) / 2, offsetY = (board.height - drawnHeight) / 2;
       panelLinks.forEach((link, index) => {
         const [x, y, width, height] = mobilePanels[index];
-        Object.assign(link.style, { left: `${offsetX + drawnWidth * x}px`, top: `${offsetY + drawnHeight * y}px`, width: `${drawnWidth * width}px`, height: `${drawnHeight * height}px` });
+        link.style.left = `${x * 100}%`;
+        link.style.top = `${y * 100}%`;
+        link.style.width = `${width * 100}%`;
+        link.style.height = `${height * 100}%`;
       });
     }
 
