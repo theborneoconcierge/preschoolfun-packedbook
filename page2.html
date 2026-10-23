@@ -129,15 +129,15 @@
     }
     @media (pointer: coarse) and (orientation: portrait) and (max-height: 1000px) {
       .page { position: relative; z-index: 1; grid-template-rows: minmax(0, 1fr); width: 100dvw; height: 100dvh; gap: 0; background: transparent; }
-      .artboard { justify-self: center; align-self: center; width: min(100dvw, calc(100dvh * 412 / 924)); height: auto; margin: 0; aspect-ratio: 412 / 924; }
-      .artboard img { object-fit: contain; object-position: center; }
+      .artboard { justify-self: stretch; align-self: stretch; width: 100dvw; height: 100dvh; margin: 0; aspect-ratio: auto; }
+      .artboard img { object-fit: fill; object-position: center; }
       .panel-link { left: var(--x-portrait); top: var(--y-portrait); width: var(--w-portrait); height: var(--h-portrait); }
       body::before { display: block; z-index: 0; }
     }
     @media (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
       .page { position: relative; z-index: 1; grid-template-rows: minmax(0, 1fr); width: 100dvw; height: 100dvh; gap: 0; background: transparent; }
-      .artboard { justify-self: center; align-self: center; width: min(100dvw, calc(100dvh * 924 / 412)); height: min(100dvh, calc(100dvw * 412 / 924)); aspect-ratio: 924 / 412; }
-      .artboard img { object-fit: contain; object-position: center; }
+      .artboard { justify-self: stretch; align-self: stretch; width: 100dvw; height: 100dvh; aspect-ratio: auto; }
+      .artboard img { object-fit: fill; object-position: center; }
       body::before { display: block; z-index: 0; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -149,7 +149,7 @@
 <body>
   <main class="page" id="page2-top">
     <figure class="artboard" aria-label="Afri's nine learning panels">
-      <picture><source media="(pointer: coarse) and (orientation: portrait) and (max-height: 1000px)" srcset="page2-mobile-portrait.png"><source media="(pointer: coarse) and (orientation: landscape) and (max-height: 600px)" srcset="page2-mobile-landscape.png"><source media="(max-width: 600px) and (orientation: portrait)" srcset="page2-mobile-portrait.png"><source media="(max-width: 1023px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-mobile-landscape.png"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 900px) and (orientation: portrait)" srcset="page2-tablet-portrait.png"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 600px) and (max-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-tablet-landscape.png"><source media="(min-width: 1240px) and (orientation: landscape)" srcset="page2-laptop.png"><img src="Afri%209%20Panels.jpg" alt="Afri waves beside the greeting, Hello there! Which one shall we play today? Below are nine panels: ABC, numbers, puzzles, exploring the world, kindness, cooking, shapes, art, and reading."></picture>
+      <picture><source media="(pointer: coarse) and (orientation: portrait) and (max-height: 1000px)" srcset="page2-mobile-portrait-full.png"><source media="(pointer: coarse) and (orientation: landscape) and (max-height: 600px)" srcset="page2-mobile-landscape-full.png"><source media="(max-width: 600px) and (orientation: portrait)" srcset="page2-mobile-portrait-full.png"><source media="(max-width: 1023px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-mobile-landscape-full.png"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 900px) and (orientation: portrait)" srcset="page2-tablet-portrait.png"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 600px) and (max-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-tablet-landscape.png"><source media="(min-width: 1240px) and (orientation: landscape)" srcset="page2-laptop.png"><img src="Afri%209%20Panels.jpg" alt="Afri waves beside the greeting, Hello there! Which one shall we play today? Below are nine panels: ABC, numbers, puzzles, exploring the world, kindness, cooking, shapes, art, and reading."></picture>
       <a class="panel-link" style="--x-wide:6%;--y-wide:24.4%;--w-wide:29.4%;--h-wide:22.7%;--x-tall:2.2%;--y-tall:31.4%;--w-tall:32.2%;--h-tall:17.6%;--x-portrait:1.2%;--y-portrait:32.2%;--w-portrait:32%;--h-portrait:17%" href="early-literacy.html" aria-label="Open Early Literacy"></a>
       <a class="panel-link" style="--x-wide:36.2%;--y-wide:24.4%;--w-wide:29%;--h-wide:22.7%;--x-tall:35.2%;--y-tall:31.4%;--w-tall:31.6%;--h-tall:17.6%;--x-portrait:34.7%;--y-portrait:32.2%;--w-portrait:31%;--h-portrait:17%" href="early-math.html" aria-label="Open Early Math"></a>
       <a class="panel-link" style="--x-wide:65.5%;--y-wide:24.4%;--w-wide:30.2%;--h-wide:22.7%;--x-tall:66.4%;--y-tall:31.4%;--w-tall:32%;--h-tall:17.6%;--x-portrait:66.5%;--y-portrait:32.2%;--w-portrait:31.5%;--h-portrait:17%" href="thinking-skills.html" aria-label="Open Thinking Skills"></a>
@@ -359,11 +359,14 @@
         [0.012, 0.495, 0.320, 0.162], [0.347, 0.495, 0.310, 0.162], [0.665, 0.495, 0.315, 0.162],
         [0.012, 0.658, 0.320, 0.162], [0.347, 0.658, 0.310, 0.162], [0.665, 0.658, 0.315, 0.162]
       ];
+      const fullbleedImage = artwork.currentSrc.includes('page2-mobile-portrait-full.png');
+      const imageWidth = fullbleedImage ? 412 : artwork.naturalWidth;
+      const insetX = fullbleedImage ? (artwork.naturalWidth - imageWidth) / 2 : 0;
       panelLinks.forEach((link, index) => {
         const [x, y, width, height] = portraitPanels[index];
-        link.style.left = `${x * 100}%`;
+        link.style.left = `${(insetX + imageWidth * x) / artwork.naturalWidth * 100}%`;
         link.style.top = `${y * 100}%`;
-        link.style.width = `${width * 100}%`;
+        link.style.width = `${imageWidth * width / artwork.naturalWidth * 100}%`;
         link.style.height = `${height * 100}%`;
       });
     }
@@ -378,11 +381,14 @@
         [0.181, 0.497, 0.214, 0.188], [0.398, 0.497, 0.209, 0.188], [0.608, 0.497, 0.218, 0.188],
         [0.181, 0.690, 0.214, 0.195], [0.398, 0.690, 0.209, 0.195], [0.608, 0.690, 0.218, 0.195]
       ];
+      const fullbleedImage = artwork.currentSrc.includes('page2-mobile-landscape-full.png');
+      const imageWidth = fullbleedImage ? 924 : artwork.naturalWidth;
+      const insetX = fullbleedImage ? (artwork.naturalWidth - imageWidth) / 2 : 0;
       panelLinks.forEach((link, index) => {
         const [x, y, width, height] = mobilePanels[index];
-        link.style.left = `${x * 100}%`;
+        link.style.left = `${(insetX + imageWidth * x) / artwork.naturalWidth * 100}%`;
         link.style.top = `${y * 100}%`;
-        link.style.width = `${width * 100}%`;
+        link.style.width = `${imageWidth * width / artwork.naturalWidth * 100}%`;
         link.style.height = `${height * 100}%`;
       });
     }
@@ -391,27 +397,42 @@
       if (!artwork.naturalWidth || !artwork.naturalHeight) return;
 
       const board = artboard.getBoundingClientRect();
+      const imageName = decodeURIComponent(artwork.currentSrc.split('/').pop().split('?')[0]);
+      const isFullbleedPortrait = imageName === 'page2-mobile-portrait-full.png';
+      const isFullbleedLandscape = imageName === 'page2-mobile-landscape-full.png';
+      const fullbleedBaseWidth = isFullbleedPortrait ? 412 : isFullbleedLandscape ? 924 : artwork.naturalWidth;
+      const insetX = (artwork.naturalWidth - fullbleedBaseWidth) / 2;
+      const fillImage = isFullbleedPortrait || isFullbleedLandscape;
       const scale = getComputedStyle(artwork).objectFit === 'cover'
         ? Math.max(board.width / artwork.naturalWidth, board.height / artwork.naturalHeight)
         : Math.min(board.width / artwork.naturalWidth, board.height / artwork.naturalHeight);
-      const drawnWidth = artwork.naturalWidth * scale;
-      const drawnHeight = artwork.naturalHeight * scale;
-      const offsetX = (board.width - drawnWidth) / 2;
-      const offsetY = (board.height - drawnHeight) / 2;
-      const imageName = decodeURIComponent(artwork.currentSrc.split('/').pop().split('?')[0]);
-      const artworkButtons = imageName === 'page2-laptop.png'
+      const scaleX = fillImage ? board.width / artwork.naturalWidth : scale;
+      const scaleY = fillImage ? board.height / artwork.naturalHeight : scale;
+      const drawnWidth = artwork.naturalWidth * scaleX;
+      const drawnHeight = artwork.naturalHeight * scaleY;
+      const offsetX = fillImage ? 0 : (board.width - drawnWidth) / 2;
+      const offsetY = fillImage ? 0 : (board.height - drawnHeight) / 2;
+      let artworkButtons = imageName === 'page2-laptop.png'
         ? [[0.018, 0.870, 0.153, 0.097], [0.856, 0.870, 0.128, 0.097]]
-        : imageName === 'page2-mobile-portrait.png'
+        : imageName === 'page2-mobile-portrait.png' || isFullbleedPortrait
           ? [[0.034, 0.911, 0.437, 0.059], [0.563, 0.911, 0.408, 0.059]]
         : imageName === 'page2-tablet-landscape.png'
           ? [[0.017, 0.879, 0.211, 0.079], [0.798, 0.879, 0.188, 0.079]]
         : imageName === 'page2-tablet-portrait.png'
           ? [[0.192, 0.900, 0.261, 0.054], [0.560, 0.900, 0.247, 0.054]]
-        : imageName === 'page2-mobile-landscape.png'
+        : imageName === 'page2-mobile-landscape.png' || isFullbleedLandscape
           ? [[0.022, 0.862, 0.169, 0.099], [0.820, 0.862, 0.161, 0.099]]
         : imageName === 'Afri 9 Panels Portrait.png'
           ? [[0.184, 0.878, 0.326, 0.046], [0.544, 0.878, 0.276, 0.046]]
           : null;
+      if (fillImage && artworkButtons) {
+        artworkButtons = artworkButtons.map(([x, y, width, height]) => [
+          (insetX + fullbleedBaseWidth * x) / artwork.naturalWidth,
+          y,
+          fullbleedBaseWidth * width / artwork.naturalWidth,
+          height
+        ]);
+      }
       const controlsFit = artworkButtons?.every(([x, y, width, height]) => {
         const left = offsetX + drawnWidth * x;
         const top = offsetY + drawnHeight * y;
