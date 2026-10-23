@@ -73,7 +73,7 @@
       .music-toggle { position: fixed; top: max(12px, env(safe-area-inset-top)); right: 12px; min-width: 104px; min-height: 44px; font-size: .9rem; }
       .voice-toggle { position: fixed; top: calc(max(12px, env(safe-area-inset-top)) + 50px); right: 12px; min-width: 104px; min-height: 40px; font-size: .85rem; }
     }
-    @media (max-width: 1100px) and (max-height: 600px) and (orientation: landscape) {
+    @media (max-width: 1100px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape) {
       .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: contain; object-position: center; transform: none; }
     }
     @media (min-width: 601px) and (max-width: 1100px) and (orientation: portrait) {
@@ -93,7 +93,7 @@
   <main class="cover" id="cover" aria-label="Preschool Fun-packed Book cover">
     <picture>
       <source media="(max-width: 600px) and (orientation: portrait)" srcset="page1-mobile-portrait.png">
-      <source media="(max-width: 1100px) and (max-height: 600px) and (orientation: landscape)" srcset="page1-mobile-landscape.png">
+      <source media="(max-width: 1100px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page1-mobile-landscape.png">
       <source media="(min-width: 601px) and (max-width: 1100px) and (orientation: portrait)" srcset="page1-tablet-portrait.png">
       <source media="(min-width: 701px) and (max-width: 1100px) and (min-height: 601px) and (orientation: landscape)" srcset="page1-tablet-landscape-4x3.png">
       <source media="(min-width: 1101px) and (orientation: landscape)" srcset="page1-tablet-landscape.png">
@@ -168,7 +168,7 @@
         const box = artwork.getBoundingClientRect();
         const sourceWidth = artwork.naturalWidth, sourceHeight = artwork.naturalHeight;
         const laptopCover = window.matchMedia('(min-width: 1101px) and (orientation: landscape)').matches;
-        const mobileLandscape = window.matchMedia('(max-width: 1100px) and (max-height: 600px) and (orientation: landscape)').matches;
+        const mobileLandscape = window.matchMedia('(max-width: 1100px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)').matches;
         const mobilePortrait = window.matchMedia('(max-width: 600px) and (orientation: portrait)').matches;
         const tabletLandscape = window.matchMedia('(min-width: 701px) and (max-width: 1100px) and (min-height: 601px) and (orientation: landscape)').matches;
         const tabletPortrait = window.matchMedia('(min-width: 601px) and (max-width: 1100px) and (orientation: portrait)').matches;
