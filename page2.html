@@ -79,23 +79,23 @@
       .page-nav { gap: 8px; padding: 8px 12px; }
       .page-nav a, .music-toggle { padding: 10px 16px; }
     }
-    @media (max-width: 480px) and (orientation: portrait) {
+    @media (max-width: 600px) and (orientation: portrait) {
   body::before { display: none; }
       .page { display: grid; grid-template-rows: minmax(0, 1fr); width: 100dvw; height: 100dvh; gap: 0; }
-      .artboard { justify-self: stretch; align-self: stretch; width: 100dvw; height: 100dvh; margin: 0; aspect-ratio: 412 / 924; }
+      .artboard { justify-self: center; align-self: center; width: min(100dvw, calc(100dvh * 412 / 924)); height: auto; margin: 0; aspect-ratio: 412 / 924; }
       .artboard img { object-fit: contain; object-position: center; }
       .panel-link { left: var(--x-portrait); top: var(--y-portrait); width: var(--w-portrait); height: var(--h-portrait); }
       .butterfly--one { left: 3%; top: 86%; }
       .butterfly--two { right: 3%; top: 86%; }
     }
-    @media (min-width: 481px) and (max-width: 1023px) and (max-height: 599px) and (orientation: landscape) {
+    @media (max-width: 1023px) and (max-height: 599px) and (orientation: landscape) {
       body::before { display: none; }
       .page { grid-template-rows: minmax(0, 1fr); }
       .artboard {
-        justify-self: stretch;
-        align-self: stretch;
-        width: 100dvw;
-        height: 100dvh;
+        justify-self: center;
+        align-self: center;
+        width: min(100dvw, calc(100dvh * 924 / 412));
+        height: min(100dvh, calc(100dvw * 412 / 924));
         aspect-ratio: 924 / 412;
       }
       .artboard img { object-fit: contain; }
@@ -138,7 +138,7 @@
 <body>
   <main class="page" id="page2-top">
     <figure class="artboard" aria-label="Afri's nine learning panels">
-      <picture><source media="(max-width: 480px) and (orientation: portrait)" srcset="page2-mobile-portrait.png"><source media="(min-width: 481px) and (max-width: 1023px) and (max-height: 599px) and (orientation: landscape)" srcset="page2-mobile-landscape.png"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 900px) and (orientation: portrait)" srcset="page2-tablet-portrait.png"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 600px) and (orientation: landscape)" srcset="page2-tablet-landscape.png"><source media="(min-width: 1240px) and (orientation: landscape)" srcset="page2-laptop.png"><img src="Afri%209%20Panels.jpg" alt="Afri waves beside the greeting, Hello there! Which one shall we play today? Below are nine panels: ABC, numbers, puzzles, exploring the world, kindness, cooking, shapes, art, and reading."></picture>
+      <picture><source media="(max-width: 600px) and (orientation: portrait)" srcset="page2-mobile-portrait.png"><source media="(max-width: 1023px) and (max-height: 599px) and (orientation: landscape)" srcset="page2-mobile-landscape.png"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 900px) and (orientation: portrait)" srcset="page2-tablet-portrait.png"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 600px) and (orientation: landscape)" srcset="page2-tablet-landscape.png"><source media="(min-width: 1240px) and (orientation: landscape)" srcset="page2-laptop.png"><img src="Afri%209%20Panels.jpg" alt="Afri waves beside the greeting, Hello there! Which one shall we play today? Below are nine panels: ABC, numbers, puzzles, exploring the world, kindness, cooking, shapes, art, and reading."></picture>
       <a class="panel-link" style="--x-wide:6%;--y-wide:24.4%;--w-wide:29.4%;--h-wide:22.7%;--x-tall:2.2%;--y-tall:31.4%;--w-tall:32.2%;--h-tall:17.6%;--x-portrait:1.2%;--y-portrait:32.2%;--w-portrait:32%;--h-portrait:17%" href="early-literacy.html" aria-label="Open Early Literacy"></a>
       <a class="panel-link" style="--x-wide:36.2%;--y-wide:24.4%;--w-wide:29%;--h-wide:22.7%;--x-tall:35.2%;--y-tall:31.4%;--w-tall:31.6%;--h-tall:17.6%;--x-portrait:34.7%;--y-portrait:32.2%;--w-portrait:31%;--h-portrait:17%" href="early-math.html" aria-label="Open Early Math"></a>
       <a class="panel-link" style="--x-wide:65.5%;--y-wide:24.4%;--w-wide:30.2%;--h-wide:22.7%;--x-tall:66.4%;--y-tall:31.4%;--w-tall:32%;--h-tall:17.6%;--x-portrait:66.5%;--y-portrait:32.2%;--w-portrait:31.5%;--h-portrait:17%" href="thinking-skills.html" aria-label="Open Thinking Skills"></a>
@@ -268,7 +268,6 @@
        https://pixabay.com/music/happy-childrens-tunes-childrenx27s-instrumental-01-368715/ -->
   <audio id="page2-music" src="page2-background-music.mp3" loop preload="auto"></audio>
   <script>
-    const page = document.querySelector('.page');
     const artboard = document.querySelector('.artboard');
     const artwork = artboard.querySelector('img');
     const panelLinks = [...artboard.querySelectorAll('.panel-link')];
@@ -339,7 +338,7 @@
     }
 
     function placeMobileLandscapePanelLinks() {
-      const mobileLandscape = window.matchMedia('(min-width: 481px) and (max-width: 1023px) and (max-height: 599px) and (orientation: landscape)').matches;
+      const mobileLandscape = window.matchMedia('(max-width: 1023px) and (max-height: 599px) and (orientation: landscape)').matches;
       if (!mobileLandscape || !artwork.naturalWidth || !artwork.naturalHeight) return;
 
       const mobilePanels = [
@@ -415,25 +414,7 @@
       });
     }
 
-    function syncMobileLandscapeViewport() {
-      const mobileLandscape = window.matchMedia('(min-width: 481px) and (max-width: 1023px) and (max-height: 599px) and (orientation: landscape)').matches;
-      if (mobileLandscape) {
-        const width = `${window.innerWidth}px`;
-        const height = `${window.innerHeight}px`;
-        page.style.width = width;
-        page.style.height = height;
-        artboard.style.width = width;
-        artboard.style.height = height;
-      } else {
-        page.style.removeProperty('width');
-        page.style.removeProperty('height');
-        artboard.style.removeProperty('width');
-        artboard.style.removeProperty('height');
-      }
-    }
-
     function updateResponsiveLayout() {
-      syncMobileLandscapeViewport();
       placeLaptopPanelLinks();
       placeTabletPortraitPanelLinks();
       placeMobileLandscapePanelLinks();
