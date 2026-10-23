@@ -82,6 +82,10 @@
     @media (max-width: 600px) and (orientation: portrait) {
       .artwork { width: max(100dvw, 44.65dvh); }
     }
+    @media (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+      .cover { background: #49b9f5; }
+      .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: contain; object-position: center; transform: none; }
+    }
     @media (prefers-reduced-motion: no-preference) {
       .music-toggle { animation: floaty 4s ease-in-out infinite; }
       @keyframes floaty { 0%,100% { translate: 0 0; } 50% { translate: 0 -3px; } }
@@ -92,6 +96,7 @@
 <body>
   <main class="cover" id="cover" aria-label="Preschool Fun-packed Book cover">
     <picture>
+      <source media="(pointer: coarse) and (orientation: landscape) and (max-height: 600px)" srcset="page1-mobile-landscape.png">
       <source media="(max-width: 600px) and (orientation: portrait)" srcset="page1-mobile-portrait.png">
       <source media="(max-width: 1100px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page1-mobile-landscape.png">
       <source media="(min-width: 601px) and (max-width: 1100px) and (orientation: portrait)" srcset="page1-tablet-portrait.png">
@@ -167,8 +172,9 @@
         if (!artwork.naturalWidth) return;
         const box = artwork.getBoundingClientRect();
         const sourceWidth = artwork.naturalWidth, sourceHeight = artwork.naturalHeight;
-        const laptopCover = window.matchMedia('(min-width: 1101px) and (orientation: landscape)').matches;
-        const mobileLandscape = window.matchMedia('(max-width: 1100px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)').matches;
+        const mobileLandscape = window.matchMedia('(pointer: coarse) and (orientation: landscape) and (max-height: 600px)').matches
+          || window.matchMedia('(max-width: 1100px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)').matches;
+        const laptopCover = window.matchMedia('(min-width: 1101px) and (orientation: landscape)').matches && !mobileLandscape;
         const mobilePortrait = window.matchMedia('(max-width: 600px) and (orientation: portrait)').matches;
         const tabletLandscape = window.matchMedia('(min-width: 701px) and (max-width: 1100px) and (min-height: 601px) and (orientation: landscape)').matches;
         const tabletPortrait = window.matchMedia('(min-width: 601px) and (max-width: 1100px) and (orientation: portrait)').matches;
