@@ -74,17 +74,17 @@
       .voice-toggle { position: fixed; top: calc(max(12px, env(safe-area-inset-top)) + 50px); right: 12px; min-width: 104px; min-height: 40px; font-size: .85rem; }
     }
     @media (max-width: 1100px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape) {
-      .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: fill; object-position: center; transform: none; }
+      .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: contain; object-position: center; transform: none; }
     }
     @media (min-width: 601px) and (max-width: 1100px) and (orientation: portrait) {
       .artwork { width: max(100dvw, 75dvh); }
     }
     @media (max-width: 600px) and (orientation: portrait) {
-      .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: fill; object-position: center; transform: none; }
+      .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: contain; object-position: center; transform: none; }
     }
     @media (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
       .cover { background: #49b9f5; }
-      .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: fill; object-position: center; transform: none; }
+      .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: contain; object-position: center; transform: none; }
     }
     @media (prefers-reduced-motion: no-preference) {
       .music-toggle { animation: floaty 4s ease-in-out infinite; }
@@ -150,12 +150,12 @@
         const fullbleedPortrait = artwork.currentSrc.includes('page1-mobile-portrait-full.png');
         const fullbleedLandscape = artwork.currentSrc.includes('page1-mobile-landscape-full.png');
         const insetX = fullbleedPortrait ? (sourceWidth - 838) / 2 : fullbleedLandscape ? (sourceWidth - 924) / 2 : 0;
+        const insetY = fullbleedPortrait ? (sourceHeight - 1877) / 2 : 0;
         const scale = Math.min(box.width / sourceWidth, box.height / sourceHeight);
-        const scaleX = fullbleedPortrait || fullbleedLandscape ? box.width / sourceWidth : scale;
-        const scaleY = fullbleedPortrait || fullbleedLandscape ? box.height / sourceHeight : scale;
-        const drawnWidth = sourceWidth * scaleX, drawnHeight = sourceHeight * scaleY;
-        const sourceLeft = fullbleedPortrait || fullbleedLandscape ? -insetX : -(box.width - drawnWidth) / (2 * scaleX);
-        const sourceTop = fullbleedPortrait || fullbleedLandscape ? 0 : -(box.height - drawnHeight) / (2 * scaleY);
+        const scaleX = scale, scaleY = scale;
+        const drawnWidth = sourceWidth * scale, drawnHeight = sourceHeight * scale;
+        const sourceLeft = -insetX - (box.width - drawnWidth) / (2 * scale);
+        const sourceTop = -insetY - (box.height - drawnHeight) / (2 * scale);
         decorations.style.left = `${box.left + window.scrollX}px`;
         decorations.style.top = `${box.top + window.scrollY}px`;
         decorations.style.width = `${box.width}px`;
@@ -186,12 +186,12 @@
         const fullbleedPortrait = artwork.currentSrc.includes('page1-mobile-portrait-full.png');
         const fullbleedLandscape = artwork.currentSrc.includes('page1-mobile-landscape-full.png');
         const artworkXOffset = fullbleedPortrait ? (sourceWidth - 838) / 2 : fullbleedLandscape ? (sourceWidth - 924) / 2 : 0;
+        const artworkYOffset = fullbleedPortrait ? (sourceHeight - 1877) / 2 : 0;
         const scale = laptopCover
           ? Math.max(box.width / sourceWidth, box.height / sourceHeight)
           : Math.min(box.width / sourceWidth, box.height / sourceHeight);
-        const scaleX = fullbleedPortrait || fullbleedLandscape ? box.width / sourceWidth : scale;
-        const scaleY = fullbleedPortrait || fullbleedLandscape ? box.height / sourceHeight : scale;
-        const drawnWidth = sourceWidth * scaleX, drawnHeight = sourceHeight * scaleY;
+        const scaleX = scale, scaleY = scale;
+        const drawnWidth = sourceWidth * scale, drawnHeight = sourceHeight * scale;
         const offsetX = (box.width - drawnWidth) / 2, offsetY = (box.height - drawnHeight) / 2;
         const button = mobilePortrait
           ? { x1: 535, y1: 1100, x2: 810, y2: 1335 }
@@ -205,7 +205,7 @@
               ? { x1: 365, y1: 1445, x2: 840, y2: 1705 }
               : { x1: 850, y1: 388, x2: 1170, y2: 508 };
         const x1 = (button.x1 + artworkXOffset) * scaleX + offsetX, x2 = (button.x2 + artworkXOffset) * scaleX + offsetX;
-        const y1 = button.y1 * scaleY + offsetY, y2 = button.y2 * scaleY + offsetY;
+        const y1 = (button.y1 + artworkYOffset) * scaleY + offsetY, y2 = (button.y2 + artworkYOffset) * scaleY + offsetY;
         start.style.left = `${box.left + x1}px`;
         start.style.top = `${box.top + y1}px`;
         start.style.width = `${Math.max(0, x2 - x1)}px`;
