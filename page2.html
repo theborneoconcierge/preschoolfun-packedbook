@@ -5,6 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#53b9f1">
   <title>Choose a Learning Panel | Preschool Fun-packed Book</title>
+  <script>
+    (() => {
+      const ua = navigator.userAgent;
+      const brands = navigator.userAgentData?.brands || [];
+      const isAndroid = navigator.userAgentData?.mobile === true || /Android/i.test(ua);
+      const isEdge = brands.some(({ brand }) => /Microsoft Edge/i.test(brand)) || /EdgA|EdgiOS|Edg\//i.test(ua);
+      const isChrome = brands.some(({ brand }) => /^Google Chrome$/i.test(brand)) || /Chrome\//i.test(ua);
+      if (!isAndroid || isEdge || !isChrome) return;
+
+      document.documentElement.classList.add('android-chrome');
+      const updateVisibleViewport = () => {
+        const viewport = window.visualViewport;
+        if (!viewport) return;
+        document.documentElement.style.setProperty('--android-chrome-vw', `${viewport.width}px`);
+        document.documentElement.style.setProperty('--android-chrome-vh', `${viewport.height}px`);
+      };
+      updateVisibleViewport();
+      window.visualViewport?.addEventListener('resize', updateVisibleViewport, { passive: true });
+      window.addEventListener('resize', updateVisibleViewport, { passive: true });
+    })();
+  </script>
   <style>
     :root { color-scheme: light; font-family: "Trebuchet MS", "Arial Rounded MT Bold", system-ui, sans-serif; color: #263e73; background: #e9f8ff; }
     * { box-sizing: border-box; }
@@ -139,6 +160,11 @@
       .artboard { justify-self: stretch; align-self: stretch; width: 100dvw; height: 100dvh; aspect-ratio: auto; }
       .artboard img { object-fit: fill; object-position: center; }
       body::before { display: none; }
+    }
+    @media (pointer: coarse) and (orientation: portrait) and (max-height: 1000px) {
+      html.android-chrome .page { width: var(--android-chrome-vw, 100dvw); height: var(--android-chrome-vh, 100dvh); }
+      html.android-chrome .artboard { width: var(--android-chrome-vw, 100dvw); height: var(--android-chrome-vh, 100dvh); }
+      html.android-chrome .artboard img { object-fit: cover; object-position: center; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -360,6 +386,15 @@
         [0.012, 0.658, 0.320, 0.162], [0.347, 0.658, 0.310, 0.162], [0.665, 0.658, 0.315, 0.162]
       ];
       const fullbleedImage = artwork.currentSrc.includes('page2-mobile-portrait-full.png');
+      if (document.documentElement.classList.contains('android-chrome')) {
+        panelLinks.forEach(link => {
+          link.style.left = 'var(--x-portrait)';
+          link.style.top = 'var(--y-portrait)';
+          link.style.width = 'var(--w-portrait)';
+          link.style.height = 'var(--h-portrait)';
+        });
+        return;
+      }
       const imageWidth = fullbleedImage ? 412 : artwork.naturalWidth;
       const insetX = fullbleedImage ? (artwork.naturalWidth - imageWidth) / 2 : 0;
       panelLinks.forEach((link, index) => {
@@ -403,15 +438,16 @@
       const fullbleedBaseWidth = isFullbleedPortrait ? 412 : isFullbleedLandscape ? 924 : artwork.naturalWidth;
       const insetX = (artwork.naturalWidth - fullbleedBaseWidth) / 2;
       const fillImage = isFullbleedPortrait || isFullbleedLandscape;
+      const chromeCover = document.documentElement.classList.contains('android-chrome') && isFullbleedPortrait;
       const scale = getComputedStyle(artwork).objectFit === 'cover'
         ? Math.max(board.width / artwork.naturalWidth, board.height / artwork.naturalHeight)
         : Math.min(board.width / artwork.naturalWidth, board.height / artwork.naturalHeight);
-      const scaleX = fillImage ? board.width / artwork.naturalWidth : scale;
-      const scaleY = fillImage ? board.height / artwork.naturalHeight : scale;
+      const scaleX = fillImage && !chromeCover ? board.width / artwork.naturalWidth : scale;
+      const scaleY = fillImage && !chromeCover ? board.height / artwork.naturalHeight : scale;
       const drawnWidth = artwork.naturalWidth * scaleX;
       const drawnHeight = artwork.naturalHeight * scaleY;
-      const offsetX = fillImage ? 0 : (board.width - drawnWidth) / 2;
-      const offsetY = fillImage ? 0 : (board.height - drawnHeight) / 2;
+      const offsetX = fillImage && !chromeCover ? 0 : (board.width - drawnWidth) / 2;
+      const offsetY = fillImage && !chromeCover ? 0 : (board.height - drawnHeight) / 2;
       let artworkButtons = imageName === 'page2-laptop.png'
         ? [[0.018, 0.870, 0.153, 0.097], [0.856, 0.870, 0.128, 0.097]]
         : imageName === 'page2-mobile-portrait.png' || isFullbleedPortrait
