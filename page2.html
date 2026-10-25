@@ -113,9 +113,9 @@
       .artboard {
         justify-self: center;
         align-self: center;
-        width: min(100dvw, calc(100dvh * 924 / 412));
-        height: min(100dvh, calc(100dvw * 412 / 924));
-        aspect-ratio: 924 / 412;
+        width: min(100dvw, calc(100dvh * 1280 / 589));
+        height: min(100dvh, calc(100dvw * 589 / 1280));
+        aspect-ratio: 1280 / 589;
       }
       .artboard img { object-fit: contain; }
     }
@@ -158,7 +158,7 @@
     @media (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
       html, body { width: 100%; height: 100%; min-height: 0; overflow: hidden; }
       .page { position: fixed; inset: 0; z-index: 1; grid-template-rows: minmax(0, 1fr); width: 100%; height: 100%; min-height: 0; gap: 0; background: transparent; }
-      .artboard { justify-self: center; align-self: center; width: min(100dvw, calc(100dvh * 924 / 412)); height: min(100dvh, calc(100dvw * 412 / 924)); aspect-ratio: 924 / 412; }
+      .artboard { justify-self: center; align-self: center; width: min(100dvw, calc(100dvh * 1280 / 589)); height: min(100dvh, calc(100dvw * 589 / 1280)); aspect-ratio: 1280 / 589; }
       .artboard img { object-fit: contain; object-position: center; }
       .page-nav.artwork-visible-controls > * { top: auto; bottom: 2%; height: 12%; max-height: 48px; padding: clamp(4px, 1.2vh, 10px) clamp(8px, 2vw, 16px); font-size: clamp(11px, 2.4vh, 16px); white-space: nowrap; }
       .page-nav.artwork-visible-controls > a { left: 2%; width: min(34%, 230px); }
@@ -179,7 +179,7 @@
 <body>
   <main class="page" id="page2-top">
     <figure class="artboard" aria-label="Afri's nine learning panels">
-      <picture><source media="(pointer: coarse) and (orientation: portrait) and (max-height: 1000px)" srcset="page2-mobile-portrait-viewport.png?v=20261026-viewport3"><source media="(pointer: coarse) and (orientation: landscape) and (max-height: 600px)" srcset="page2-mobile-landscape-aspect.png?v=20261026-viewport2"><source media="(max-width: 600px) and (orientation: portrait)" srcset="page2-mobile-portrait-viewport.png?v=20261026-viewport3"><source media="(max-width: 1023px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-mobile-landscape-aspect.png?v=20261026-viewport2"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 900px) and (orientation: portrait)" srcset="page2-tablet-portrait.png"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 600px) and (max-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-tablet-landscape.png"><source media="(min-width: 1240px) and (orientation: landscape)" srcset="page2-laptop.png"><img src="Afri%209%20Panels.jpg" alt="Afri waves beside the greeting, Hello there! Which one shall we play today? Below are nine panels: ABC, numbers, puzzles, exploring the world, kindness, cooking, shapes, art, and reading."></picture>
+      <picture><source media="(pointer: coarse) and (orientation: portrait) and (max-height: 1000px)" srcset="page2-mobile-portrait-viewport.png?v=20261026-viewport3"><source media="(pointer: coarse) and (orientation: landscape) and (max-height: 600px)" srcset="page2-mobile-landscape-viewport.png?v=20261026-viewport3"><source media="(max-width: 600px) and (orientation: portrait)" srcset="page2-mobile-portrait-viewport.png?v=20261026-viewport3"><source media="(max-width: 1023px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-mobile-landscape-viewport.png?v=20261026-viewport3"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 900px) and (orientation: portrait)" srcset="page2-tablet-portrait.png"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 600px) and (max-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-tablet-landscape.png"><source media="(min-width: 1240px) and (orientation: landscape)" srcset="page2-laptop.png"><img src="Afri%209%20Panels.jpg" alt="Afri waves beside the greeting, Hello there! Which one shall we play today? Below are nine panels: ABC, numbers, puzzles, exploring the world, kindness, cooking, shapes, art, and reading."></picture>
       <a class="panel-link" style="--x-wide:6%;--y-wide:24.4%;--w-wide:29.4%;--h-wide:22.7%;--x-tall:2.2%;--y-tall:31.4%;--w-tall:32.2%;--h-tall:17.6%;--x-portrait:1.2%;--y-portrait:32.2%;--w-portrait:32%;--h-portrait:17%" href="early-literacy.html" aria-label="Open Early Literacy"></a>
       <a class="panel-link" style="--x-wide:36.2%;--y-wide:24.4%;--w-wide:29%;--h-wide:22.7%;--x-tall:35.2%;--y-tall:31.4%;--w-tall:31.6%;--h-tall:17.6%;--x-portrait:34.7%;--y-portrait:32.2%;--w-portrait:31%;--h-portrait:17%" href="early-math.html" aria-label="Open Early Math"></a>
       <a class="panel-link" style="--x-wide:65.5%;--y-wide:24.4%;--w-wide:30.2%;--h-wide:22.7%;--x-tall:66.4%;--y-tall:31.4%;--w-tall:32%;--h-tall:17.6%;--x-portrait:66.5%;--y-portrait:32.2%;--w-portrait:31.5%;--h-portrait:17%" href="thinking-skills.html" aria-label="Open Thinking Skills"></a>
@@ -431,7 +431,7 @@
         || window.matchMedia('(max-width: 1023px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)').matches;
       if (!mobileLandscape || !artwork.naturalWidth || !artwork.naturalHeight) return;
 
-      const aspectLandscape = artwork.currentSrc.includes("page2-mobile-landscape-aspect.png");
+      const aspectLandscape = artwork.currentSrc.includes("page2-mobile-landscape-viewport.png");
       const mobilePanels = aspectLandscape ? [
         [0.232, 0.249, 0.175, 0.171], [0.407, 0.249, 0.176, 0.171], [0.584, 0.249, 0.176, 0.171],
         [0.232, 0.424, 0.175, 0.171], [0.407, 0.424, 0.176, 0.171], [0.584, 0.424, 0.176, 0.171],
@@ -481,8 +481,8 @@
           ? [[0.017, 0.879, 0.211, 0.079], [0.798, 0.879, 0.188, 0.079]]
         : imageName === 'page2-tablet-portrait.png'
           ? [[0.192, 0.900, 0.261, 0.054], [0.560, 0.900, 0.247, 0.054]]
-        : imageName === 'page2-mobile-landscape.png' || imageName === 'page2-mobile-landscape-aspect.png' || isFullbleedLandscape
-          ? (imageName === 'page2-mobile-landscape-aspect.png' ? [[0.074, 0.831, 0.20, 0.12], [0.752, 0.831, 0.18, 0.12]] : [[0.022, 0.862, 0.169, 0.099], [0.820, 0.862, 0.161, 0.099]])
+        : imageName === 'page2-mobile-landscape.png' || imageName === 'page2-mobile-landscape-viewport.png' || isFullbleedLandscape
+          ? (imageName === 'page2-mobile-landscape-viewport.png' ? [[0.074, 0.831, 0.20, 0.12], [0.752, 0.831, 0.18, 0.12]] : [[0.022, 0.862, 0.169, 0.099], [0.820, 0.862, 0.161, 0.099]])
         : imageName === 'Afri 9 Panels Portrait.png'
           ? [[0.184, 0.878, 0.326, 0.046], [0.544, 0.878, 0.276, 0.046]]
           : null;
