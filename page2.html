@@ -98,7 +98,7 @@
     .page-nav.artwork-positioned { position: fixed; display: block; inset: auto; z-index: 5; padding: 0; pointer-events: none; }
     .page-nav.artwork-positioned > * { position: absolute; margin: 0; pointer-events: auto; }
     .page-nav.artwork-hit-areas > * { padding: 0; border: 0; border-radius: 0; background: transparent; color: transparent; box-shadow: none; }
-    .page-nav.artwork-hit-areas > .music-toggle { padding: 0 8px; border: 1px solid rgb(255 255 255 / 85%); border-radius: 999px; background: linear-gradient(180deg, #1478ff, #0759e8); color: #fff; box-shadow: inset 0 1px 2px rgb(255 255 255 / 35%), 0 2px 5px rgb(16 54 105 / 35%); font: inherit; font-weight: 800; white-space: nowrap; }
+    .page-nav.artwork-hit-areas > .music-toggle { padding: 0; border: 0; border-radius: 999px; background: transparent; color: transparent; box-shadow: none; font: inherit; font-weight: 800; white-space: nowrap; }
     .page-nav.artwork-hit-areas > *:focus-visible { opacity: 1; }
     .page-nav.artwork-visible-controls > a { left: 12px; top: 12px; }
     .page-nav.artwork-visible-controls > .music-toggle { right: 12px; top: 12px; }
@@ -485,45 +485,34 @@
       const imageName = decodeURIComponent(artwork.currentSrc.split('/').pop().split('?')[0]);
       const isFullbleedPortrait = imageName === 'page2-mobile-portrait-full.png';
       const isFullbleedLandscape = imageName === 'page2-mobile-landscape-full.png';
-      const fullbleedBaseWidth = isFullbleedPortrait ? 412 : isFullbleedLandscape ? 924 : artwork.naturalWidth;
-      const insetX = (artwork.naturalWidth - fullbleedBaseWidth) / 2;
-      const fillImage = isFullbleedPortrait || isFullbleedLandscape;
-      const chromeCover = document.documentElement.classList.contains('android-chrome') && isFullbleedPortrait;
       const scale = getComputedStyle(artwork).objectFit === 'cover'
         ? Math.max(board.width / artwork.naturalWidth, board.height / artwork.naturalHeight)
         : Math.min(board.width / artwork.naturalWidth, board.height / artwork.naturalHeight);
-      const scaleX = fillImage && !chromeCover ? board.width / artwork.naturalWidth : scale;
-      const scaleY = fillImage && !chromeCover ? board.height / artwork.naturalHeight : scale;
+      const scaleX = scale;
+      const scaleY = scale;
       const drawnWidth = artwork.naturalWidth * scaleX;
       const drawnHeight = artwork.naturalHeight * scaleY;
-      const offsetX = fillImage && !chromeCover ? 0 : (board.width - drawnWidth) / 2;
-      const offsetY = fillImage && !chromeCover ? 0 : (board.height - drawnHeight) / 2;
+      const offsetX = (board.width - drawnWidth) / 2;
+      const offsetY = (board.height - drawnHeight) / 2;
       let artworkButtons = imageName === 'page2-laptop.png'
         ? [[0.018, 0.870, 0.153, 0.097], [0.856, 0.870, 0.128, 0.097]]
         : imageName === 'page2-mobile-portrait.png' || imageName === 'page2-mobile-portrait-viewport.png' || isFullbleedPortrait
-          ? (imageName === 'page2-mobile-portrait-viewport.png' ? [[0.094, 0.886, 0.383, 0.062], [0.528, 0.886, 0.376, 0.062]] : [[0.034, 0.911, 0.437, 0.059], [0.563, 0.911, 0.408, 0.059]])
+          ? (isFullbleedPortrait ? [[0.065, 0.910, 0.411, 0.062], [0.562, 0.910, 0.338, 0.062]] : imageName === 'page2-mobile-portrait-viewport.png' ? [[0.094, 0.886, 0.383, 0.062], [0.528, 0.886, 0.376, 0.062]] : [[0.034, 0.911, 0.437, 0.059], [0.563, 0.911, 0.408, 0.059]])
         : imageName === 'page2-tablet-landscape.png'
           ? [[0.017, 0.879, 0.211, 0.079], [0.798, 0.879, 0.188, 0.079]]
         : imageName === 'page2-tablet-portrait.png'
           ? [[0.192, 0.900, 0.261, 0.054], [0.560, 0.900, 0.247, 0.054]]
         : imageName === 'page2-mobile-landscape.png' || imageName === 'page2-mobile-landscape-viewport.png' || isFullbleedLandscape
-          ? (imageName === 'page2-mobile-landscape-viewport.png' ? [[0.074, 0.830, 0.198, 0.105], [0.758, 0.830, 0.174, 0.105]] : [[0.022, 0.862, 0.169, 0.099], [0.820, 0.862, 0.161, 0.099]])
+          ? (isFullbleedLandscape ? [[0.145, 0.840, 0.138, 0.100], [0.724, 0.840, 0.118, 0.100]] : imageName === 'page2-mobile-landscape-viewport.png' ? [[0.074, 0.830, 0.198, 0.105], [0.758, 0.830, 0.174, 0.105]] : [[0.022, 0.862, 0.169, 0.099], [0.820, 0.862, 0.161, 0.099]])
         : imageName === 'Afri 9 Panels Portrait.png'
           ? [[0.184, 0.878, 0.326, 0.046], [0.544, 0.878, 0.276, 0.046]]
           : null;
-      if (fillImage && artworkButtons) {
-        artworkButtons = artworkButtons.map(([x, y, width, height]) => [
-          (insetX + fullbleedBaseWidth * x) / artwork.naturalWidth,
-          y,
-          fullbleedBaseWidth * width / artwork.naturalWidth,
-          height
-        ]);
-      }
-      const controlsFit = artworkButtons?.every(([x, y, width, height]) => {
+      const mobileArtworkHasPrintedControls = /page2-mobile-(portrait|landscape)-(full|viewport)\.png$/.test(imageName);
+      const controlsFit = Boolean(artworkButtons) && (mobileArtworkHasPrintedControls || artworkButtons.every(([x, y, width, height]) => {
         const left = offsetX + drawnWidth * x;
         const top = offsetY + drawnHeight * y;
         return left >= 0 && top >= 0 && left + drawnWidth * width <= board.width && top + drawnHeight * height <= board.height;
-      });
+      }));
 
       pageNav.classList.add('artwork-positioned');
       pageNav.classList.toggle('artwork-hit-areas', Boolean(controlsFit));

@@ -97,7 +97,7 @@
       .artwork { width: max(100dvw, 75dvh); }
     }
     @media (max-width: 600px) and (orientation: portrait) {
-      .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: contain; object-position: center; transform: none; }
+      .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: cover; object-position: center; transform: none; }
     }
     @media (pointer: coarse) and (orientation: portrait) and (max-height: 1000px) {
       .cover { background: transparent; }
@@ -108,7 +108,7 @@
     }
     @media (pointer: coarse) and (orientation: portrait) and (max-height: 1000px) {
       html.android-chrome .cover { inset: 0; width: auto; height: auto; }
-      html.android-chrome .artwork { left: 0; top: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; transform: none; }
+      html.android-chrome .artwork { left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transform: none; }
     }
     @media (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
       html.android-chrome .cover { inset: 0; width: auto; height: auto; }
@@ -179,7 +179,9 @@
         const fullbleedPortrait = artwork.currentSrc.includes('page1-mobile-portrait-full.png');
         const fullbleedLandscape = artwork.currentSrc.includes('page1-mobile-landscape-full.png');
         const insetX = fullbleedPortrait ? (sourceWidth - 838) / 2 : fullbleedLandscape ? (sourceWidth - 924) / 2 : 0;
-        const scale = Math.min(box.width / sourceWidth, box.height / sourceHeight);
+        const scale = getComputedStyle(artwork).objectFit === 'cover'
+          ? Math.max(box.width / sourceWidth, box.height / sourceHeight)
+          : Math.min(box.width / sourceWidth, box.height / sourceHeight);
         const scaleX = fullbleedLandscape ? box.width / sourceWidth : scale;
         const scaleY = fullbleedLandscape ? box.height / sourceHeight : scale;
         const drawnWidth = sourceWidth * scaleX, drawnHeight = sourceHeight * scaleY;
@@ -216,7 +218,7 @@
         const fullbleedLandscape = artwork.currentSrc.includes('page1-mobile-landscape-full.png');
         const chromeMobileCover = document.documentElement.classList.contains('android-chrome') && mobileLandscape;
         const artworkXOffset = fullbleedPortrait ? (sourceWidth - 838) / 2 : fullbleedLandscape ? (sourceWidth - 924) / 2 : 0;
-        const scale = laptopCover || chromeMobileCover
+        const scale = laptopCover || chromeMobileCover || getComputedStyle(artwork).objectFit === 'cover'
           ? Math.max(box.width / sourceWidth, box.height / sourceHeight)
           : Math.min(box.width / sourceWidth, box.height / sourceHeight);
         const scaleX = fullbleedLandscape && !chromeMobileCover ? box.width / sourceWidth : scale;
