@@ -98,7 +98,7 @@
     .page-nav.artwork-positioned { position: fixed; display: block; inset: auto; z-index: 5; padding: 0; pointer-events: none; }
     .page-nav.artwork-positioned > * { position: absolute; margin: 0; pointer-events: auto; }
     .page-nav.artwork-hit-areas > * { padding: 0; border: 0; border-radius: 0; background: transparent; color: transparent; box-shadow: none; }
-    .page-nav.artwork-hit-areas > .music-toggle { padding: 0; border: 0; border-radius: 999px; background: transparent; color: transparent; box-shadow: none; font: inherit; font-weight: 800; white-space: nowrap; }
+    .page-nav.artwork-hit-areas > .music-toggle { padding: 0 8px; border: 1px solid rgb(255 255 255 / 90%); border-radius: 999px; background: linear-gradient(180deg, #1685ff, #0757e8); color: #fff; box-shadow: inset 0 1px 2px rgb(255 255 255 / 35%), 0 2px 5px rgb(16 54 105 / 35%); font: inherit; font-weight: 800; white-space: nowrap; }
     .page-nav.artwork-hit-areas > *:focus-visible { opacity: 1; }
     .page-nav.artwork-visible-controls > a { left: 12px; top: 12px; }
     .page-nav.artwork-visible-controls > .music-toggle { right: 12px; top: 12px; }
@@ -110,7 +110,7 @@
     @media (max-width: 600px) and (orientation: portrait) {
       .page { display: grid; grid-template-rows: minmax(0, 1fr); width: 100dvw; height: 100dvh; gap: 0; }
       .artboard { justify-self: center; align-self: center; width: min(100dvw, calc(100dvh * 589 / 1197)); height: auto; margin: 0; aspect-ratio: 589 / 1197; }
-      .artboard img { object-fit: contain; object-position: center; }
+      .artboard img { object-fit: cover; object-position: center; }
       .panel-link { left: var(--x-portrait); top: var(--y-portrait); width: var(--w-portrait); height: var(--h-portrait); }
       .butterfly--one { left: 3%; top: 86%; }
       .butterfly--two { right: 3%; top: 86%; }
@@ -158,7 +158,7 @@
     @media (pointer: coarse) and (orientation: portrait) and (max-height: 1000px) {
       .page { position: relative; z-index: 1; grid-template-rows: minmax(0, 1fr); width: 100dvw; height: 100dvh; gap: 0; }
       .artboard { justify-self: stretch; align-self: stretch; width: 100dvw; height: 100dvh; margin: 0; aspect-ratio: auto; }
-      .artboard img { object-fit: contain; object-position: center; }
+      .artboard img { object-fit: cover; object-position: center; }
       .panel-link { left: var(--x-portrait); top: var(--y-portrait); width: var(--w-portrait); height: var(--h-portrait); }
       body::before { display: none; }
     }
@@ -166,7 +166,7 @@
       html, body { width: 100%; height: 100%; min-height: 0; overflow: hidden; }
       .page { position: fixed; inset: 0; z-index: 1; grid-template-rows: minmax(0, 1fr); width: 100%; height: 100%; min-height: 0; gap: 0; background: transparent; }
       .artboard { justify-self: center; align-self: center; width: min(100dvw, calc(100dvh * 1280 / 589)); height: min(100dvh, calc(100dvw * 589 / 1280)); aspect-ratio: 1280 / 589; }
-      .artboard img { object-fit: contain; object-position: center; }
+      .page.app-viewport .artboard img { object-fit: fill; object-position: center; }
       .page-nav.artwork-visible-controls > * { top: auto; bottom: 2%; height: 12%; max-height: 48px; padding: clamp(4px, 1.2vh, 10px) clamp(8px, 2vw, 16px); font-size: clamp(11px, 2.4vh, 16px); white-space: nowrap; }
       .page-nav.artwork-visible-controls > a { left: 2%; width: min(34%, 230px); }
       .page-nav.artwork-visible-controls > .music-toggle { right: 2%; width: min(28%, 190px); }
@@ -175,7 +175,7 @@
     @media (pointer: coarse) and (orientation: portrait) and (max-height: 1000px) {
       html.android-chrome .page { width: var(--android-chrome-vw, 100dvw); height: var(--android-chrome-vh, 100dvh); }
       html.android-chrome .artboard { width: var(--android-chrome-vw, 100dvw); height: var(--android-chrome-vh, 100dvh); }
-      html.android-chrome .artboard img { object-fit: contain; object-position: center; }
+      html.android-chrome .artboard img { object-fit: cover; object-position: center; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -403,7 +403,10 @@
       ];
       if (aspectPortrait) {
         const board = artboard.getBoundingClientRect();
-        const scale = Math.min(board.width / artwork.naturalWidth, board.height / artwork.naturalHeight);
+        const imageFit = getComputedStyle(artwork).objectFit;
+        const scale = imageFit === 'cover'
+          ? Math.max(board.width / artwork.naturalWidth, board.height / artwork.naturalHeight)
+          : Math.min(board.width / artwork.naturalWidth, board.height / artwork.naturalHeight);
         const drawnWidth = artwork.naturalWidth * scale, drawnHeight = artwork.naturalHeight * scale;
         const offsetX = (board.width - drawnWidth) / 2, offsetY = (board.height - drawnHeight) / 2;
         panelLinks.forEach((link, index) => {
@@ -424,6 +427,22 @@
       }
       const imageWidth = fullbleedImage ? 412 : artwork.naturalWidth;
       const insetX = fullbleedImage ? (artwork.naturalWidth - imageWidth) / 2 : 0;
+      if (fullbleedImage && getComputedStyle(artwork).objectFit === 'cover') {
+        const board = artboard.getBoundingClientRect();
+        const scale = Math.max(board.width / artwork.naturalWidth, board.height / artwork.naturalHeight);
+        const offsetX = (board.width - artwork.naturalWidth * scale) / 2;
+        const offsetY = (board.height - artwork.naturalHeight * scale) / 2;
+        panelLinks.forEach((link, index) => {
+          const [x, y, width, height] = portraitPanels[index];
+          Object.assign(link.style, {
+            left: `${offsetX + (insetX + imageWidth * x) * scale}px`,
+            top: `${offsetY + artwork.naturalHeight * y * scale}px`,
+            width: `${imageWidth * width * scale}px`,
+            height: `${artwork.naturalHeight * height * scale}px`
+          });
+        });
+        return;
+      }
       panelLinks.forEach((link, index) => {
         const [x, y, width, height] = portraitPanels[index];
         link.style.left = `${(insetX + imageWidth * x) / artwork.naturalWidth * 100}%`;
@@ -485,15 +504,16 @@
       const imageName = decodeURIComponent(artwork.currentSrc.split('/').pop().split('?')[0]);
       const isFullbleedPortrait = imageName === 'page2-mobile-portrait-full.png';
       const isFullbleedLandscape = imageName === 'page2-mobile-landscape-full.png';
-      const scale = getComputedStyle(artwork).objectFit === 'cover'
+      const imageFit = getComputedStyle(artwork).objectFit;
+      const scale = imageFit === 'cover'
         ? Math.max(board.width / artwork.naturalWidth, board.height / artwork.naturalHeight)
         : Math.min(board.width / artwork.naturalWidth, board.height / artwork.naturalHeight);
-      const scaleX = scale;
-      const scaleY = scale;
+      const scaleX = imageFit === 'fill' ? board.width / artwork.naturalWidth : scale;
+      const scaleY = imageFit === 'fill' ? board.height / artwork.naturalHeight : scale;
       const drawnWidth = artwork.naturalWidth * scaleX;
       const drawnHeight = artwork.naturalHeight * scaleY;
-      const offsetX = (board.width - drawnWidth) / 2;
-      const offsetY = (board.height - drawnHeight) / 2;
+      const offsetX = imageFit === 'fill' ? 0 : (board.width - drawnWidth) / 2;
+      const offsetY = imageFit === 'fill' ? 0 : (board.height - drawnHeight) / 2;
       let artworkButtons = imageName === 'page2-laptop.png'
         ? [[0.018, 0.870, 0.153, 0.097], [0.856, 0.870, 0.128, 0.097]]
         : imageName === 'page2-mobile-portrait.png' || imageName === 'page2-mobile-portrait-viewport.png' || isFullbleedPortrait
