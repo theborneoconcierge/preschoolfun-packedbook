@@ -98,7 +98,7 @@
     .page-nav.artwork-positioned { position: fixed; display: block; inset: auto; z-index: 5; padding: 0; pointer-events: none; }
     .page-nav.artwork-positioned > * { position: absolute; margin: 0; pointer-events: auto; }
     .page-nav.artwork-hit-areas > * { padding: 0; border: 0; border-radius: 0; background: transparent; color: transparent; box-shadow: none; }
-    .page-nav.artwork-hit-areas > .music-toggle { padding: 0 8px; border: 1px solid rgb(255 255 255 / 90%); border-radius: 999px; background: linear-gradient(180deg, #1685ff, #0757e8); color: #fff; box-shadow: inset 0 1px 2px rgb(255 255 255 / 35%), 0 2px 5px rgb(16 54 105 / 35%); font: inherit; font-weight: 800; white-space: nowrap; }
+    .page-nav.artwork-hit-areas > a, .page-nav.artwork-hit-areas > .music-toggle { display: inline-flex; align-items: center; justify-content: center; padding: 0 8px; border: 1px solid rgb(255 255 255 / 90%); border-radius: 999px; background: linear-gradient(180deg, #1685ff, #0757e8); color: #fff; box-shadow: inset 0 1px 2px rgb(255 255 255 / 35%), 0 2px 5px rgb(16 54 105 / 35%); font: inherit; font-weight: 800; text-decoration: none; white-space: nowrap; }
     .page-nav.artwork-hit-areas > *:focus-visible { opacity: 1; }
     .page-nav.artwork-visible-controls > a { left: 12px; top: 12px; }
     .page-nav.artwork-visible-controls > .music-toggle { right: 12px; top: 12px; }
@@ -166,7 +166,7 @@
       html, body { width: 100%; height: 100%; min-height: 0; overflow: hidden; }
       .page { position: fixed; inset: 0; z-index: 1; grid-template-rows: minmax(0, 1fr); width: 100%; height: 100%; min-height: 0; gap: 0; background: transparent; }
       .artboard { justify-self: center; align-self: center; width: min(100dvw, calc(100dvh * 1280 / 589)); height: min(100dvh, calc(100dvw * 589 / 1280)); aspect-ratio: 1280 / 589; }
-      .page.app-viewport .artboard img { object-fit: fill; object-position: center; }
+      .page.app-viewport .artboard img { object-fit: fill !important; object-position: center; }
       .page-nav.artwork-visible-controls > * { top: auto; bottom: 2%; height: 12%; max-height: 48px; padding: clamp(4px, 1.2vh, 10px) clamp(8px, 2vw, 16px); font-size: clamp(11px, 2.4vh, 16px); white-space: nowrap; }
       .page-nav.artwork-visible-controls > a { left: 2%; width: min(34%, 230px); }
       .page-nav.artwork-visible-controls > .music-toggle { right: 2%; width: min(28%, 190px); }
@@ -517,13 +517,13 @@
       let artworkButtons = imageName === 'page2-laptop.png'
         ? [[0.018, 0.870, 0.153, 0.097], [0.856, 0.870, 0.128, 0.097]]
         : imageName === 'page2-mobile-portrait.png' || imageName === 'page2-mobile-portrait-viewport.png' || isFullbleedPortrait
-          ? (isFullbleedPortrait ? [[0.065, 0.910, 0.411, 0.062], [0.562, 0.910, 0.338, 0.062]] : imageName === 'page2-mobile-portrait-viewport.png' ? [[0.094, 0.886, 0.383, 0.062], [0.528, 0.886, 0.376, 0.062]] : [[0.034, 0.911, 0.437, 0.059], [0.563, 0.911, 0.408, 0.059]])
+          ? (isFullbleedPortrait ? [[0.065, 0.910, 0.411, 0.062], [0.562, 0.910, 0.411, 0.062]] : imageName === 'page2-mobile-portrait-viewport.png' ? [[0.094, 0.886, 0.383, 0.062], [0.528, 0.886, 0.383, 0.062]] : [[0.034, 0.911, 0.437, 0.059], [0.563, 0.911, 0.437, 0.059]])
         : imageName === 'page2-tablet-landscape.png'
           ? [[0.017, 0.879, 0.211, 0.079], [0.798, 0.879, 0.188, 0.079]]
         : imageName === 'page2-tablet-portrait.png'
           ? [[0.192, 0.900, 0.261, 0.054], [0.560, 0.900, 0.247, 0.054]]
         : imageName === 'page2-mobile-landscape.png' || imageName === 'page2-mobile-landscape-viewport.png' || isFullbleedLandscape
-          ? (isFullbleedLandscape ? [[0.145, 0.840, 0.138, 0.100], [0.724, 0.840, 0.118, 0.100]] : imageName === 'page2-mobile-landscape-viewport.png' ? [[0.074, 0.830, 0.198, 0.105], [0.758, 0.830, 0.174, 0.105]] : [[0.022, 0.862, 0.169, 0.099], [0.820, 0.862, 0.161, 0.099]])
+          ? (isFullbleedLandscape ? [[0.145, 0.840, 0.138, 0.100], [0.724, 0.840, 0.138, 0.100]] : imageName === 'page2-mobile-landscape-viewport.png' ? [[0.074, 0.830, 0.198, 0.105], [0.758, 0.830, 0.198, 0.105]] : [[0.022, 0.862, 0.169, 0.099], [0.820, 0.862, 0.169, 0.099]])
         : imageName === 'Afri 9 Panels Portrait.png'
           ? [[0.184, 0.878, 0.326, 0.046], [0.544, 0.878, 0.276, 0.046]]
           : null;
