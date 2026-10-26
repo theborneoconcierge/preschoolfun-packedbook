@@ -61,6 +61,42 @@ a { -webkit-tap-highlight-color: transparent; }
   place-items: center;
 }
 
+/* Full-viewport stage for illustrated screens that need edge-to-edge artwork. */
+.app-viewport {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+@media (pointer: coarse) and (max-height: 1000px) {
+  .app-viewport.page {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .app-viewport.page .artboard {
+    justify-self: stretch;
+    align-self: stretch;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    aspect-ratio: auto;
+  }
+}
+
+@media (display-mode: standalone) and (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+  .app-viewport.page .artboard img { object-fit: cover; object-position: center; }
+}
+
 .content-card {
   width: min(100%, var(--content-max));
   padding: clamp(1.5rem, 6vw, 3.5rem);
