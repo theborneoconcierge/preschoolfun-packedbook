@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Preschool Fun">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#43b9f4">
+  <link rel="stylesheet" href="site-skeleton.css">
+  <title>Illustrated Page | Preschool Fun-packed Book</title>
+  <style>
+    /* Choose the crop policy once for this artwork; the shared CSS applies it by orientation. */
+    .page-art {
+      --art-fit-portrait: cover;
+      --art-fit-landscape: cover;
+    }
+
+    /* Example control positions. Update these percentages to match this page's artwork. */
+    .back-control {
+      --control-left-portrait: 4%; --control-top-portrait: 88%; --control-width-portrait: 38%; --control-height-portrait: 8%;
+      --control-left-landscape: 2%; --control-top-landscape: 84%; --control-width-landscape: 28%; --control-height-landscape: 12%;
+    }
+    .action-control {
+      --control-left-portrait: 58%; --control-top-portrait: 88%; --control-width-portrait: 38%; --control-height-portrait: 8%;
+      --control-left-landscape: 70%; --control-top-landscape: 84%; --control-width-landscape: 28%; --control-height-landscape: 12%;
+    }
+  </style>
+</head>
+<body>
+  <main class="app-viewport" aria-label="Illustrated page">
+    <figure class="responsive-artboard page-art">
+      <picture>
+        <!-- Optional: add separate portrait and landscape <source> assets here. -->
+        <img src="assets/page-artwork.png" alt="Describe the important content in this illustration">
+      </picture>
+      <nav class="artboard-overlay" aria-label="Page controls">
+        <a class="button artboard-control back-control" href="page2.html">Back</a>
+        <button class="button artboard-control action-control" type="button">Action</button>
+      </nav>
+    </figure>
+  </main>
+</body>
+</html>
