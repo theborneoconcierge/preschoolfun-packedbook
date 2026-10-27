@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#43b9f4">
+  <link rel="stylesheet" href="site-skeleton.css">
+  <title>Letter S — S for Sun | Preschool Fun</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    .card-stage {
+      position: fixed; inset: 0; display: grid; place-items: center; overflow: hidden;
+      background: #75c9f3;
+    }
+    .card-stage::before {
+      content: ""; position: absolute; inset: -2rem;
+      background: url("letter-s-card.jpg") center / cover no-repeat;
+      filter: blur(18px) brightness(.78); transform: scale(1.04);
+    }
+    .card-art {
+      position: relative; width: min(100vw, 133.333dvh); width: min(100vw, 133.333svh); aspect-ratio: 4 / 3; margin: 0;
+      max-height: 100dvh; max-height: 100svh; overflow: hidden; isolation: isolate;
+      box-shadow: 0 8px 32px rgb(0 0 0 / 24%);
+    }
+    .card-art img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .hit {
+      position: absolute; z-index: 1; display: block; border: 0; padding: 0;
+      background: transparent; cursor: pointer; border-radius: 1rem;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hit:focus-visible { outline: 4px solid #fff; outline-offset: 2px; box-shadow: 0 0 0 7px #087fc1; }
+    .audio-hit { left: 9%; top: 65%; width: 46%; height: 14%; }
+    .previous-hit { left: 2%; bottom: 2%; width: 16%; height: 19%; }
+    .next-hit { right: 2%; bottom: 2%; width: 16%; height: 19%; }
+    .audio-status {
+      position: absolute; left: 50%; top: 80%; transform: translateX(-50%);
+      z-index: 2; padding: .35rem .75rem; border-radius: 999px;
+      color: #17324b; background: rgb(255 255 255 / 92%); font: 600 1rem/1.2 system-ui, sans-serif;
+      opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    .audio-status.show { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) { .audio-status { transition: none; } }
+  </style>
+</head>
+<body>
+  <main class="card-stage" aria-label="Letter S flash card">
+    <figure class="card-art">
+      <img src="letter-s-card.jpg" alt="Uppercase and lowercase S beside a smiling sun, with Previous and Next buttons">
+      <button class="hit audio-hit" type="button" aria-label="Play S for Sun pronunciation" title="Play S for Sun"></button>
+      <a class="hit previous-hit" href="page21.html" aria-label="Previous page: Letter R" title="Previous"></a>
+      <button class="hit next-hit" type="button" aria-label="Next alphabet card" title="Next"></button>
+      <span class="audio-status" role="status" aria-live="polite"></span>
+    </figure>
+    <audio id="letter-s-audio" src="letter-s-audio.mp3" preload="auto"></audio>
+  </main>
+  <script>
+    const audio = document.getElementById('letter-s-audio');
+    const status = document.querySelector('.audio-status');
+    document.querySelector('.next-hit').addEventListener('click', () => {
+      status.textContent = 'More letters coming soon';
+      status.classList.add('show');
+      window.setTimeout(() => status.classList.remove('show'), 1600);
+    });
+    document.querySelector('.audio-hit').addEventListener('click', async () => {
+      try {
+        audio.currentTime = 0;
+        await audio.play();
+        status.textContent = 'S for Sun';
+        status.classList.add('show');
+        window.setTimeout(() => status.classList.remove('show'), 1600);
+      } catch (_) {
+        status.textContent = 'Tap to play audio';
+        status.classList.add('show');
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
