@@ -59,7 +59,7 @@
     const audio = document.getElementById('letter-m-audio');
     const status = document.querySelector('.audio-status');
     document.querySelector('.next-hit').addEventListener('click', () => {
-      status.textContent = 'More letters coming soon';
+      window.location.href = 'page17.html';
       status.classList.add('show');
       window.setTimeout(() => status.classList.remove('show'), 1600);
     });
@@ -78,6 +78,7 @@
   </script>
 </body>
 </html>
+
 
 
 
