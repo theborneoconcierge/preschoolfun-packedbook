@@ -12,7 +12,7 @@
     .game { position: fixed; inset: 0; width: 100vw; width: 100dvw; height: 100vh; height: 100dvh; overflow: hidden; background: #62c3f3; }
     .art { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; }
     .art picture { display: block; width: 100%; height: 100%; }
-    .art img { display: block; width: 100%; height: 100%; object-fit: fill; }
+    .art img { display: block; width: 100%; height: 100%; object-fit: fill; object-position: center; }
     .target { position: absolute; z-index: 1; display: block; border: 0; border-radius: 18%; padding: 0; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
     .target:focus-visible { outline: 4px solid #fff; outline-offset: -3px; box-shadow: 0 0 0 7px #087fc1; }
     .letter.selected { outline: 5px solid #fff; outline-offset: -5px; background: #ffffff45; box-shadow: 0 0 0 8px #fa70ac99; }
@@ -35,12 +35,12 @@
       .target.letter[data-letter="P"] { left: 27% !important; top: 70% !important; width: 7% !important; height: 18% !important; }
       .target.letter[data-letter="Q"] { left: 34% !important; top: 70% !important; width: 8% !important; height: 18% !important; }
       .target.picture[data-match="K"] { left: 48% !important; top: 46% !important; width: 11% !important; height: 21% !important; }
-      .target.picture[data-match="R"] { left: 59% !important; top: 47% !important; width: 12% !important; height: 19% !important; }
-      .target.picture[aria-label="Monkey"] { left: 70% !important; top: 45% !important; width: 10% !important; height: 22% !important; }
-      .target.picture[data-match="A"] { left: 80% !important; top: 46% !important; width: 10% !important; height: 21% !important; }
+      .target.picture[data-match="R"] { left: 59% !important; top: 48% !important; width: 10% !important; height: 17% !important; }
+      .target.picture[aria-label="Monkey"] { left: 70.5% !important; top: 47% !important; width: 8% !important; height: 19% !important; }
+      .target.picture[data-match="A"] { left: 79.5% !important; top: 48% !important; width: 8% !important; height: 17% !important; }
       .target.picture[data-match="B"] { left: 61% !important; top: 67% !important; width: 8% !important; height: 17% !important; }
-      .target.picture[data-match="E"] { left: 48% !important; top: 66% !important; width: 12% !important; height: 25% !important; }
-      .target.picture[data-match="P"] { left: 72% !important; top: 63% !important; width: 8% !important; height: 19% !important; }
+      .target.picture[data-match="E"] { left: 48.5% !important; top: 68% !important; width: 10% !important; height: 21% !important; }
+      .target.picture[data-match="P"] { left: 72% !important; top: 64% !important; width: 8% !important; height: 17% !important; }
       .target.picture[data-match="X"] { left: 73% !important; top: 77% !important; width: 9% !important; height: 17% !important; }
       .target.picture[data-match="T"] { left: 65% !important; top: 76% !important; width: 8% !important; height: 18% !important; }
       .target.picture[data-match="Q"] { left: 82% !important; top: 66% !important; width: 11% !important; height: 29% !important; }
@@ -66,16 +66,16 @@
       <button class="target letter" data-letter="P" aria-label="Letter P" style="left:21%;top:79%;width:14%;height:11%"></button>
       <button class="target letter" data-letter="Q" aria-label="Letter Q" style="left:5%;top:85%;width:15%;height:11%"></button>
 
-      <button class="target picture" data-match="K" aria-label="Kite" style="left:41%;top:28%;width:22%;height:15%"></button>
-      <button class="target picture" data-match="R" aria-label="Rainbow" style="left:68%;top:29%;width:28%;height:15%"></button>
-      <button class="target picture" data-match="M" aria-label="Monkey" style="left:39%;top:43%;width:21%;height:16%"></button>
-      <button class="target picture" data-match="A" aria-label="Apple" style="left:61%;top:44%;width:19%;height:15%"></button>
-      <button class="target picture" data-match="B" aria-label="Beach ball" style="left:80%;top:48%;width:18%;height:13%"></button>
-      <button class="target picture" data-match="E" aria-label="Elephant, a try-again picture" style="left:41%;top:59%;width:30%;height:15%"></button>
-      <button class="target picture" data-match="P" aria-label="Pencil" style="left:77%;top:60%;width:20%;height:15%"></button>
-      <button class="target picture" data-match="X" aria-label="Xylophone" style="left:58%;top:71%;width:27%;height:12%"></button>
-      <button class="target picture" data-match="T" aria-label="Teddy bear" style="left:40%;top:79%;width:24%;height:17%"></button>
-      <button class="target picture" data-match="Q" aria-label="Queen" style="left:74%;top:79%;width:23%;height:17%"></button>
+      <button class="target picture" data-match="K" aria-label="Kite" style="left:42%;top:29%;width:19%;height:13%"></button>
+      <button class="target picture" data-match="R" aria-label="Rainbow" style="left:70%;top:31%;width:24%;height:12%"></button>
+      <button class="target picture" data-match="M" aria-label="Monkey" style="left:40%;top:45%;width:17%;height:13%"></button>
+      <button class="target picture" data-match="A" aria-label="Apple" style="left:62%;top:46%;width:16%;height:12%"></button>
+      <button class="target picture" data-match="B" aria-label="Beach ball" style="left:81%;top:49%;width:15%;height:10%"></button>
+      <button class="target picture" data-match="E" aria-label="Elephant, a try-again picture" style="left:43%;top:60%;width:25%;height:12%"></button>
+      <button class="target picture" data-match="P" aria-label="Pencil" style="left:79%;top:61%;width:17%;height:12%"></button>
+      <button class="target picture" data-match="X" aria-label="Xylophone" style="left:62%;top:72%;width:20%;height:10%"></button>
+      <button class="target picture" data-match="T" aria-label="Teddy bear" style="left:42%;top:80%;width:19%;height:14%"></button>
+      <button class="target picture" data-match="Q" aria-label="Queen" style="left:77%;top:80%;width:18%;height:14%"></button>
       <span class="sr-only" id="instruction">Choose a letter, then choose its matching picture. The elephant is a friendly distractor.</span>
     </figure>
     <nav class="hud" aria-label="Game controls">
