@@ -9,7 +9,6 @@
   <meta name="apple-mobile-web-app-title" content="Preschool Fun">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="stylesheet" href="site-skeleton.css">
-  <script src="home-button.js" defer></script>
   <meta name="theme-color" content="#53b9f1">
   <title>Choose a Learning Panel | Preschool Fun-packed Book</title>
   <script>
@@ -39,6 +38,7 @@
     html { scroll-behavior: smooth; }
     body { position: relative; isolation: isolate; margin: 0; min-width: 320px; min-height: 100vh; min-height: 100dvh; }
 
+    .home-page .home-button { display: none !important; }
     .page { display: grid; grid-template-rows: minmax(0, 1fr) auto; width: 100%; height: 100vh; height: 100dvh; margin: 0 auto; padding: 0; overflow: hidden; }
     .artboard { position: relative; justify-self: center; align-self: center; width: min(100%, calc((100vh - 88px) * 1280 / 853)); width: min(100%, calc((100dvh - 88px) * 1280 / 853)); aspect-ratio: 1280 / 853; margin: 0; }
     .artboard picture { display: block; width: 100%; height: 100%; }
@@ -178,13 +178,20 @@
       html.android-chrome .artboard { width: var(--android-chrome-vw, 100dvw); height: var(--android-chrome-vh, 100dvh); }
       html.android-chrome .artboard img { object-fit: cover; object-position: center; }
     }
+    @media (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+      html.android-chrome .page { width: var(--android-chrome-vw, 100dvw); height: var(--android-chrome-vh, 100dvh); }
+      html.android-chrome .artboard {
+        width: min(var(--android-chrome-vw, 100dvw), calc(var(--android-chrome-vh, 100dvh) * 1280 / 589));
+        height: min(var(--android-chrome-vh, 100dvh), calc(var(--android-chrome-vw, 100dvw) * 589 / 1280));
+      }
+    }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .flying-insect, .butterfly-wing, .bee-wing { animation: none !important; will-change: auto; }
     }
   </style>
 </head>
-<body>
+<body class="home-page">
   <main class="page app-viewport" id="page2-top">
     <figure class="artboard" aria-label="Afri's nine learning panels">
       <picture><source media="(display-mode: browser) and (pointer: coarse) and (orientation: portrait) and (max-height: 1000px)" srcset="page2-mobile-portrait-full.png?v=20261026-fullscreen"><source media="(display-mode: browser) and (pointer: coarse) and (orientation: landscape) and (max-height: 600px)" srcset="page2-mobile-landscape-full.png?v=20261026-fullscreen"><source media="(pointer: coarse) and (orientation: portrait) and (max-height: 1000px)" srcset="page2-mobile-portrait-viewport.png?v=20261026-viewport3"><source media="(pointer: coarse) and (orientation: landscape) and (max-height: 600px)" srcset="page2-mobile-landscape-viewport.png?v=20261026-viewport3"><source media="(max-width: 600px) and (orientation: portrait)" srcset="page2-mobile-portrait-viewport.png?v=20261026-viewport3"><source media="(max-width: 1023px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-mobile-landscape-viewport.png?v=20261026-viewport3"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 900px) and (orientation: portrait)" srcset="page2-tablet-portrait.png"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 600px) and (max-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-tablet-landscape.png"><source media="(min-width: 1240px) and (orientation: landscape)" srcset="page2-laptop.png"><img src="Afri%209%20Panels.jpg" alt="Afri waves beside the greeting, Hello there! Which one shall we play today? Below are nine panels: ABC, numbers, puzzles, exploring the world, kindness, cooking, shapes, art, and reading."></picture>
