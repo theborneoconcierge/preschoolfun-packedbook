@@ -1,5 +1,7 @@
 (() => {
   function addHomeButton() {
+    const currentPage = window.location.pathname.split('/').pop().toLowerCase();
+    if (currentPage === 'page2.html') return;
     if (!document.body || document.querySelector('.home-button')) return;
 
     const home = document.createElement('a');

@@ -7,10 +7,32 @@
   <link rel="stylesheet" href="site-skeleton.css">
   <script src="home-button.js" defer></script>
   <title>Letter Detectives | Preschool Fun</title>
+  <script>
+    (() => {
+      const ua = navigator.userAgent;
+      const brands = navigator.userAgentData?.brands || [];
+      const isAndroid = navigator.userAgentData?.mobile === true || /Android/i.test(ua);
+      const isEdge = brands.some(({ brand }) => /Microsoft Edge/i.test(brand)) || /EdgA|EdgiOS|Edg\//i.test(ua);
+      const isChrome = brands.some(({ brand }) => /^Google Chrome$/i.test(brand)) || /Chrome\//i.test(ua);
+      if (!isAndroid || isEdge || !isChrome) return;
+
+      document.documentElement.classList.add('android-chrome');
+      const updateVisibleViewport = () => {
+        const viewport = window.visualViewport;
+        if (!viewport) return;
+        document.documentElement.style.setProperty('--android-chrome-vw', `${viewport.width}px`);
+        document.documentElement.style.setProperty('--android-chrome-vh', `${viewport.height}px`);
+      };
+      updateVisibleViewport();
+      window.visualViewport?.addEventListener('resize', updateVisibleViewport, { passive: true });
+      window.addEventListener('resize', updateVisibleViewport, { passive: true });
+    })();
+  </script>
   <style>
     * { box-sizing: border-box; }
     html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
     .game { position: fixed; inset: 0; width: 100vw; width: 100dvw; height: 100vh; height: 100dvh; overflow: hidden; background: #62c3f3; }
+    html.android-chrome .game { inset: 0 auto auto 0; width: var(--android-chrome-vw, 100dvw); height: var(--android-chrome-vh, 100dvh); }
     .art { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; }
     .art picture { display: block; width: 100%; height: 100%; }
     .art img { display: block; width: 100%; height: 100%; object-fit: fill; object-position: center; }
@@ -21,6 +43,7 @@
     .picture.correct { animation: celebrate .55s ease-in-out 2; }
     @keyframes celebrate { 50% { transform: scale(1.03); box-shadow: 0 0 0 3px #ffe55c; background: transparent; } }
     .hud { position: absolute; z-index: 3; inset: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) auto max(10px, env(safe-area-inset-left)); display: flex; align-items: flex-start; justify-content: space-between; pointer-events: none; }
+    .home-button { left: 50%; transform: translateX(-50%); }
     .hud a, .music { pointer-events: auto; display: inline-flex; justify-content: center; align-items: center; min-height: 42px; padding: 8px 15px; border: 2px solid white; border-radius: 999px; background: #ffffffed; color: #21517e; box-shadow: 0 3px 10px #164b7940; font: 800 clamp(12px, 2.6vw, 17px)/1.1 system-ui, sans-serif; text-decoration: none; cursor: pointer; }
     .message { position: absolute; z-index: 4; left: 50%; top: 14%; width: min(88vw, 480px); transform: translate(-50%, -10px); padding: 12px 18px; border: 3px solid #fff; border-radius: 22px; background: #fff8dff2; color: #654023; box-shadow: 0 6px 18px #31578150; text-align: center; font: 900 clamp(17px, 3vw, 26px)/1.2 system-ui, sans-serif; opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s; }
     .message.show { opacity: 1; transform: translate(-50%, 0); }
