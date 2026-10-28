@@ -16,6 +16,7 @@
     .target { position: absolute; z-index: 1; display: block; border: 0; border-radius: 18%; padding: 0; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
     .target:focus-visible { outline: 4px solid #fff; outline-offset: -3px; box-shadow: 0 0 0 7px #087fc1; }
     .letter.selected { outline: 5px solid #fff; outline-offset: -5px; background: #ffffff45; box-shadow: 0 0 0 8px #fa70ac99; }
+    .picture.touched { outline: 4px solid #fff; outline-offset: -4px; background: #ffffff35; box-shadow: 0 0 0 6px #ffca4388; }
     .picture.correct { animation: celebrate .55s ease-in-out 2; }
     @keyframes celebrate { 50% { transform: scale(1.08); box-shadow: 0 0 0 8px #ffe55c; background: #fff7a455; } }
     .hud { position: absolute; z-index: 3; inset: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) auto max(10px, env(safe-area-inset-left)); display: flex; align-items: flex-start; justify-content: space-between; pointer-events: none; }
@@ -24,26 +25,47 @@
     .message.show { opacity: 1; transform: translate(-50%, 0); }
     .message.good { background: #e2ffdfed; color: #236534; }
     .message.try { background: #fff2cfef; color: #704c26; }
+    @media (orientation: portrait) {
+      .target.letter[data-letter="K"] { left: 4.5% !important; top: 32.5% !important; width: 14% !important; height: 9% !important; }
+      .target.letter[data-letter="A"] { left: 20% !important; top: 37.5% !important; width: 15% !important; height: 8% !important; }
+      .target.letter[data-letter="X"] { left: 5.5% !important; top: 43.5% !important; width: 15% !important; height: 9% !important; }
+      .target.letter[data-letter="B"] { left: 21% !important; top: 49% !important; width: 14% !important; height: 9% !important; }
+      .target.letter[data-letter="M"] { left: 5% !important; top: 53.5% !important; width: 16% !important; height: 8% !important; }
+      .target.letter[data-letter="R"] { left: 21% !important; top: 58% !important; width: 15% !important; height: 9% !important; }
+      .target.letter[data-letter="T"] { left: 5.5% !important; top: 62% !important; width: 14% !important; height: 8% !important; }
+      .target.letter[data-letter="P"] { left: 21% !important; top: 66.8% !important; width: 14% !important; height: 8.5% !important; }
+      .target.letter[data-letter="Q"] { left: 5% !important; top: 70.5% !important; width: 15% !important; height: 8% !important; }
+      .target.picture[data-match="K"] { left: 40% !important; top: 33% !important; width: 22% !important; height: 11% !important; }
+      .target.picture[data-match="R"] { left: 69% !important; top: 34.5% !important; width: 28% !important; height: 10% !important; }
+      .target.picture[data-match="M"] { left: 39% !important; top: 44% !important; width: 19% !important; height: 10% !important; }
+      .target.picture[data-match="A"] { left: 61% !important; top: 45% !important; width: 17% !important; height: 9% !important; }
+      .target.picture[data-match="B"] { left: 79.5% !important; top: 47% !important; width: 17% !important; height: 8% !important; }
+      .target.picture[data-match="E"] { left: 42% !important; top: 54.5% !important; width: 27% !important; height: 9% !important; }
+      .target.picture[data-match="P"] { left: 77% !important; top: 55.2% !important; width: 19% !important; height: 9% !important; }
+      .target.picture[data-match="X"] { left: 61.5% !important; top: 63.5% !important; width: 21% !important; height: 8% !important; }
+      .target.picture[data-match="T"] { left: 40% !important; top: 68% !important; width: 20% !important; height: 11% !important; }
+      .target.picture[data-match="Q"] { left: 76% !important; top: 68.5% !important; width: 20% !important; height: 11% !important; }
+    }
     @media (orientation: landscape) {
-      .target.letter[data-letter="K"] { left: 10.5% !important; top: 51% !important; width: 7% !important; height: 17% !important; }
-      .target.letter[data-letter="A"] { left: 17.5% !important; top: 51% !important; width: 7% !important; height: 17% !important; }
-      .target.letter[data-letter="X"] { left: 24.5% !important; top: 51% !important; width: 7% !important; height: 17% !important; }
-      .target.letter[data-letter="B"] { left: 31.5% !important; top: 51% !important; width: 7% !important; height: 17% !important; }
-      .target.letter[data-letter="M"] { left: 38.5% !important; top: 51% !important; width: 7.5% !important; height: 17% !important; }
-      .target.letter[data-letter="R"] { left: 13% !important; top: 70% !important; width: 7% !important; height: 18% !important; }
-      .target.letter[data-letter="T"] { left: 20% !important; top: 70% !important; width: 7% !important; height: 18% !important; }
-      .target.letter[data-letter="P"] { left: 27% !important; top: 70% !important; width: 7% !important; height: 18% !important; }
-      .target.letter[data-letter="Q"] { left: 34% !important; top: 70% !important; width: 8% !important; height: 18% !important; }
-      .target.picture[data-match="K"] { left: 48% !important; top: 46% !important; width: 11% !important; height: 21% !important; }
-      .target.picture[data-match="R"] { left: 59% !important; top: 48% !important; width: 10% !important; height: 17% !important; }
-      .target.picture[aria-label="Monkey"] { left: 70.5% !important; top: 47% !important; width: 8% !important; height: 19% !important; }
-      .target.picture[data-match="A"] { left: 79.5% !important; top: 48% !important; width: 8% !important; height: 17% !important; }
-      .target.picture[data-match="B"] { left: 61% !important; top: 67% !important; width: 8% !important; height: 17% !important; }
-      .target.picture[data-match="E"] { left: 48.5% !important; top: 68% !important; width: 10% !important; height: 21% !important; }
-      .target.picture[data-match="P"] { left: 72% !important; top: 64% !important; width: 8% !important; height: 17% !important; }
-      .target.picture[data-match="X"] { left: 73% !important; top: 77% !important; width: 9% !important; height: 17% !important; }
-      .target.picture[data-match="T"] { left: 65% !important; top: 76% !important; width: 8% !important; height: 18% !important; }
-      .target.picture[data-match="Q"] { left: 82% !important; top: 66% !important; width: 11% !important; height: 29% !important; }
+      .target.letter[data-letter="K"] { left: 10.2% !important; top: 50.8% !important; width: 7.3% !important; height: 17% !important; }
+      .target.letter[data-letter="A"] { left: 17.3% !important; top: 50.8% !important; width: 7.3% !important; height: 17% !important; }
+      .target.letter[data-letter="X"] { left: 24.4% !important; top: 50.8% !important; width: 7.2% !important; height: 17% !important; }
+      .target.letter[data-letter="B"] { left: 31.4% !important; top: 50.8% !important; width: 7.4% !important; height: 17% !important; }
+      .target.letter[data-letter="M"] { left: 38.2% !important; top: 50.8% !important; width: 7.7% !important; height: 17% !important; }
+      .target.letter[data-letter="R"] { left: 13.1% !important; top: 70.4% !important; width: 6.5% !important; height: 17% !important; }
+      .target.letter[data-letter="T"] { left: 20% !important; top: 70.4% !important; width: 6.8% !important; height: 17% !important; }
+      .target.letter[data-letter="P"] { left: 27.3% !important; top: 70.4% !important; width: 6.5% !important; height: 17% !important; }
+      .target.letter[data-letter="Q"] { left: 34.1% !important; top: 70.4% !important; width: 7% !important; height: 17% !important; }
+      .target.picture[data-match="K"] { left: 48.5% !important; top: 47.5% !important; width: 8.2% !important; height: 19.5% !important; }
+      .target.picture[data-match="R"] { left: 59.2% !important; top: 48.5% !important; width: 9.8% !important; height: 15.5% !important; }
+      .target.picture[aria-label="Monkey"] { left: 70.8% !important; top: 47.5% !important; width: 7% !important; height: 18.5% !important; }
+      .target.picture[data-match="A"] { left: 80% !important; top: 48.5% !important; width: 7% !important; height: 15.5% !important; }
+      .target.picture[data-match="B"] { left: 61.5% !important; top: 67% !important; width: 6.8% !important; height: 14.5% !important; }
+      .target.picture[data-match="E"] { left: 48.8% !important; top: 67.5% !important; width: 10.5% !important; height: 21% !important; }
+      .target.picture[data-match="P"] { left: 72% !important; top: 64% !important; width: 7.2% !important; height: 16% !important; }
+      .target.picture[data-match="X"] { left: 73.4% !important; top: 78.5% !important; width: 7.4% !important; height: 14.5% !important; }
+      .target.picture[data-match="T"] { left: 65.5% !important; top: 76% !important; width: 7% !important; height: 18% !important; }
+      .target.picture[data-match="Q"] { left: 81.5% !important; top: 67% !important; width: 9.5% !important; height: 23% !important; }
     }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
@@ -53,7 +75,7 @@
   <main class="game" aria-label="Letter Detectives matching game">
     <figure class="art" aria-label="Tap a letter, then tap the picture that starts with it">
       <picture>
-        <source media="(orientation: portrait)" srcset="letter-detectives-portrait.png">
+        <source media="(orientation: portrait)" srcset="letter-detectives-portrait-mobile.png">
         <img src="letter-detectives-landscape.png" alt="Letter Detectives matching worksheet with colorful letters and picture clues">
       </picture>
       <button class="target letter" data-letter="K" aria-label="Letter K" style="left:5%;top:28%;width:14%;height:11%"></button>
@@ -139,6 +161,8 @@
     }));
     pictures.forEach(button => button.addEventListener('click', () => {
       startMusic();
+      pictures.forEach(item => item.classList.remove('touched'));
+      button.classList.add('touched');
       if (!selected) {
         show('Tap a letter first!', 'try');
         tone([392], .16, 'triangle');
