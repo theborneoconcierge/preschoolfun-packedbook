@@ -8,16 +8,46 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Preschool Fun">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>Early Literacy | Preschool Fun-packed Book</title>
+  <meta name="theme-color" content="#43b9f4">
   <link rel="stylesheet" href="site-skeleton.css">
+  <script src="home-button.js" defer></script>
+  <title>Early Literacy | Preschool Fun-packed Book</title>
 </head>
 <body>
   <main class="app-shell">
-    <section class="content-card" aria-labelledby="page-title">
+    <section class="content-card" aria-labelledby="page-title" style="--content-max: 64rem">
       <h1 class="page-title" id="page-title">Early Literacy</h1>
-      <p class="page-copy">Activities coming soon!</p>
-      <a class="button" href="page2.html">← Back to Afri’s nine panels</a>
+      <p class="page-copy">Watch and learn with Afri!</p>
+
+      <div class="media-player">
+        <div class="media-frame">
+          <video id="literacy-video" controls playsinline preload="metadata" aria-label="Early Literacy lesson video">
+            <source src="videos/early-literacy.mp4" type="video/mp4">
+            Your browser cannot play this video.
+          </video>
+        </div>
+        <p class="media-status" id="video-status" role="status" aria-live="polite">
+          The lesson video will appear here once the MP4 is uploaded.
+        </p>
+      </div>
+
+      <div class="media-actions">
+        <a class="button" href="page2.html">← Back to Afri’s nine panels</a>
+      </div>
     </section>
   </main>
+  <script>
+    const literacyVideo = document.getElementById('literacy-video');
+    const videoStatus = document.getElementById('video-status');
+
+    literacyVideo.addEventListener('loadedmetadata', () => {
+      videoStatus.hidden = true;
+    });
+
+    literacyVideo.addEventListener('error', () => {
+      videoStatus.hidden = false;
+      videoStatus.textContent = 'The lesson video is not available yet. Please try again later.';
+    });
+  </script>
 </body>
 </html>
