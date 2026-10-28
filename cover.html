@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Preschool Fun">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="stylesheet" href="site-skeleton.css">
+  <script src="home-button.js" defer></script>
+  <meta name="theme-color" content="#43b9f4">
+  <title>Preschool Fun-packed Book</title>
+  <script>
+    (() => {
+      const ua = navigator.userAgent;
+      const brands = navigator.userAgentData?.brands || [];
+      const isAndroid = navigator.userAgentData?.mobile === true || /Android/i.test(ua);
+      const isEdge = brands.some(({ brand }) => /Microsoft Edge/i.test(brand)) || /EdgA|EdgiOS|Edg\//i.test(ua);
+      const isChrome = brands.some(({ brand }) => /^Google Chrome$/i.test(brand)) || /Chrome\//i.test(ua);
+      if (!isAndroid || isEdge || !isChrome) return;
+
+      document.documentElement.classList.add('android-chrome');
+    })();
+  </script>
+  <style>
+    :root { color-scheme: light; font-family: "Trebuchet MS", "Arial Rounded MT Bold", system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; width: 100dvw; height: 100dvh; overflow: hidden; }
+    button { font: inherit; }
+    .cover { position: fixed; inset: 0; width: 100dvw; height: 100dvh; margin: 0; padding: 0; border: 0; overflow: hidden; background: #49b9f5; }
+    .cover::before { display: none; }
+    .cover > picture { position: absolute; inset: 0; display: block; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; }
+    .artwork { position: absolute; left: 50%; top: 50%; display: block; width: 100dvw; height: auto; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; object-fit: contain; object-position: center; transform: translate(-50%, -50%); }
+    .artwork::selection { background: transparent; }
+    .decorations { position: absolute; z-index: 2; overflow: hidden; pointer-events: none; }
+    .butterfly { position: absolute; width: clamp(18px, calc(var(--art-scale, 1) * 34px), 36px); aspect-ratio: 1.25; filter: drop-shadow(0 2px 2px #31578155); animation: butterfly-drift 7.8s ease-in-out infinite; will-change: transform; }
+    .butterfly svg { display: block; width: 100%; height: 100%; overflow: visible; }
+    .butterfly .wing { transform-box: fill-box; }
+    .butterfly .wing-left { transform-origin: 100% 50%; animation: wing-flutter .62s ease-in-out infinite alternate; }
+    .butterfly .wing-right { transform-origin: 0% 50%; animation: wing-flutter .62s ease-in-out infinite alternate-reverse; }
+    .butterfly.mint { animation-duration: 9.1s; animation-delay: -2.2s; }
+    .butterfly.lilac { animation-duration: 8.4s; animation-delay: -4.1s; }
+    .twinkle-star { position: absolute; width: clamp(9px, calc(var(--art-scale, 1) * 15px), 16px); aspect-ratio: 1; background: linear-gradient(135deg,#fffdf1 10%,#fff7a4 52%,#ffcf58); clip-path: polygon(50% 0,62% 36%,100% 50%,62% 64%,50% 100%,38% 64%,0 50%,38% 36%); filter: drop-shadow(0 0 4px #fff8a8); opacity: .76; animation: star-twinkle 2.7s ease-in-out infinite; will-change: opacity, transform; }
+    .twinkle-star.gold { animation-duration: 3.3s; animation-delay: -1.4s; }
+    .twinkle-star.rose { animation-duration: 2.35s; animation-delay: -.8s; }
+    @keyframes butterfly-drift { 0%,100% { transform: translate(0,0) rotate(-4deg); } 30% { transform: translate(5px,-7px) rotate(1deg); } 64% { transform: translate(10px,2px) rotate(4deg); } }
+    @keyframes wing-flutter { from { transform: scaleX(1); } to { transform: scaleX(.58); } }
+    @keyframes star-twinkle { 0%,100% { opacity: .5; transform: scale(.82) rotate(-8deg); } 50% { opacity: 1; transform: scale(1.08) rotate(8deg); } }
+    .music-toggle { position: absolute; z-index: 4; top: max(16px, env(safe-area-inset-top)); right: max(18px, env(safe-area-inset-right)); min-width: 118px; min-height: 48px; border: 2px solid #fff; border-radius: 999px; background: rgba(255,255,255,.91); color: #21517e; font-weight: 800; box-shadow: 0 4px 14px #164b7950; cursor: pointer; transition: transform .16s, background .2s; }
+    .music-toggle:hover { transform: translateY(-2px); }
+    .music-toggle:active { transform: scale(.95); }
+    .music-toggle[aria-pressed="true"] { background: #fff4a6; }
+    .voice-toggle { position: absolute; z-index: 4; top: calc(max(16px, env(safe-area-inset-top)) + 56px); right: max(18px, env(safe-area-inset-right)); min-width: 118px; min-height: 42px; border: 2px solid #fff; border-radius: 999px; background: rgba(255,255,255,.91); color: #21517e; font-weight: 800; box-shadow: 0 4px 14px #164b7950; cursor: pointer; transition: transform .16s, background .2s; }
+    .voice-toggle:hover { transform: translateY(-2px); }
+    .voice-toggle:active { transform: scale(.95); }
+    .voice-toggle[aria-pressed="true"] { background: #fff4a6; }
+    .start-hit { position: absolute; z-index: 3; border: 0; border-radius: 30%; padding: 0; background: transparent; cursor: pointer; touch-action: manipulation; transform-origin: center; }
+    .start-hit::after { content: ""; position: absolute; inset: -2px; border: 3px solid transparent; border-radius: inherit; transition: border-color .18s, box-shadow .18s; }
+    .start-hit:hover:not(.pointer-focused)::after, .start-hit:focus-visible:not(.pointer-focused)::after { border-color: #fff; box-shadow: 0 0 0 5px #ff4dc477, 0 0 25px #fff; }
+    .start-hit.pointer-focused:focus-visible::after { border-color: transparent; box-shadow: none; }
+    .start-hit:active { transform: scale(.94); }
+    .start-hit:active::after { border-color: #ffdf55; box-shadow: 0 0 0 7px #ffdf5570; }
+    .start-hit:focus-visible, .music-toggle:focus-visible, .voice-toggle:focus-visible, .back:focus-visible { outline: 4px solid #173f9a; outline-offset: 4px; }
+    .cover.sparkle .start-hit { animation: tap-pop .5s ease-out; }
+    @keyframes tap-pop { 0% { transform: scale(1); } 45% { transform: scale(.92); } 100% { transform: scale(1); } }
+    .menu { display: none; position: fixed; inset: 0; z-index: 8; overflow: auto; padding: clamp(24px, 6vw, 72px); background: radial-gradient(circle at 18% 15%, #fff7b3 0 7%, transparent 25%), linear-gradient(145deg,#86e4ff,#c6f7cf 52%,#fff0b8); color: #263e73; text-align: center; }
+    .menu.open { display: grid; place-items: center; }
+    .menu-card { width: min(760px, 100%); padding: clamp(24px,5vw,48px); border: 5px solid white; border-radius: 36px; background: #ffffffd9; box-shadow: 0 18px 50px #34709c44; }
+    .menu h1 { margin: 0 0 10px; color: #f15ca7; font-size: clamp(2rem,6vw,4rem); text-shadow: 0 2px white; }
+    .menu p { font-size: clamp(1.05rem,2.3vw,1.35rem); }
+    .activities { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 26px 0; }
+    .activity { padding: 20px 10px; border: 3px solid white; border-radius: 24px; background: #ffe977; color: #57418d; font-weight: 900; font-size: clamp(1rem,2.5vw,1.3rem); box-shadow: 0 6px 0 #edba45; }
+    .activity:nth-child(2) { background: #b3f2df; box-shadow: 0 6px 0 #63c7aa; }
+    .activity:nth-child(3) { background: #ffc8e2; box-shadow: 0 6px 0 #e990bb; }
+    .back { border: 0; border-radius: 999px; background: #5354cf; color: white; font-weight: 900; padding: 14px 28px; cursor: pointer; box-shadow: 0 5px 0 #343493; }
+    @media (max-width: 900px) and (orientation: portrait) {
+      .music-toggle { position: fixed; top: auto; bottom: calc(max(16px, env(safe-area-inset-bottom)) + 52px); right: max(12px, env(safe-area-inset-right)); min-width: 104px; min-height: 44px; font-size: .9rem; }
+      .voice-toggle { position: fixed; top: auto; bottom: max(16px, env(safe-area-inset-bottom)); right: max(12px, env(safe-area-inset-right)); min-width: 104px; min-height: 40px; font-size: .85rem; }
+      .activities { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 701px) and (max-width: 1100px) and (min-height: 601px) and (orientation: landscape) {
+      .artwork { width: max(100dvw, 133.333dvh); }
+    }
+    @media (min-width: 1101px) and (orientation: landscape) {
+      .cover { inset: 0; width: 100dvw; height: 100dvh; background: transparent; }
+      .artwork { left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transform: none; }
+    }
+    @media (max-width: 700px) and (orientation: landscape) {
+      .music-toggle { position: fixed; top: max(12px, env(safe-area-inset-top)); right: 12px; min-width: 104px; min-height: 44px; font-size: .9rem; }
+      .voice-toggle { position: fixed; top: calc(max(12px, env(safe-area-inset-top)) + 50px); right: 12px; min-width: 104px; min-height: 40px; font-size: .85rem; }
+    }
+    @media (max-width: 1100px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape) {
+      .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: fill; object-position: center; transform: none; }
+    }
+    @media (min-width: 601px) and (max-width: 1100px) and (orientation: portrait) {
+      .artwork { width: max(100dvw, 75dvh); }
+    }
+    @media (max-width: 600px) and (orientation: portrait) {
+      .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: cover; object-position: center; transform: none; }
+    }
+    @media (pointer: coarse) and (orientation: portrait) and (max-height: 1000px) {
+      .cover { background: transparent; }
+    }
+    @media (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+      .cover { background: #49b9f5; }
+      .artwork { left: 0; top: 0; width: 100dvw; height: 100dvh; object-fit: fill; object-position: center; transform: none; }
+    }
+    @media (pointer: coarse) and (orientation: portrait) and (max-height: 1000px) {
+      html.android-chrome .cover { inset: 0; width: auto; height: auto; }
+      html.android-chrome .artwork { left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transform: none; }
+    }
+    @media (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+      html.android-chrome .cover { inset: 0; width: auto; height: auto; }
+      html.android-chrome .artwork { left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transform: none; }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .music-toggle { animation: floaty 4s ease-in-out infinite; }
+      @keyframes floaty { 0%,100% { translate: 0 0; } 50% { translate: 0 -3px; } }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } .decorations *, .decorations *::before, .decorations *::after { animation: none !important; } }
+  </style>
+</head>
+<body>
+  <main class="cover app-viewport" id="cover" aria-label="Preschool Fun-packed Book cover">
+    <picture>
+      <source media="(pointer: coarse) and (orientation: landscape) and (max-height: 600px)" srcset="page1-mobile-landscape-full.png?v=20261024-edge-fix3">
+      <source media="(display-mode: browser) and (pointer: coarse) and (orientation: portrait) and (max-height: 1000px)" srcset="page1-mobile-portrait-full.png?v=20261026-fullscreen">
+      <source media="(max-width: 600px) and (orientation: portrait)" srcset="page1-mobile-portrait-viewport.png?v=20261026-viewport2">
+      <source media="(max-width: 1100px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page1-mobile-landscape-full.png?v=20261024-edge-fix3">
+      <source media="(min-width: 601px) and (max-width: 1100px) and (orientation: portrait)" srcset="page1-tablet-portrait.png">
+      <source media="(min-width: 701px) and (max-width: 1100px) and (min-height: 601px) and (orientation: landscape)" srcset="page1-tablet-landscape-4x3.png">
+      <source media="(min-width: 1101px) and (orientation: landscape)" srcset="page1-tablet-landscape.png">
+      <img class="artwork" id="artwork" src="page1-tablet-landscape.png" alt="A cheerful preschool girl holding her fun-packed book tablet, with a teddy bear, bunny, rainbow playground, toys and a Let the FUN begin button">
+    </picture>
+    <div class="decorations" id="decorations" aria-hidden="true">
+      <span class="butterfly" data-x="185" data-y="285" data-phone-x="140" data-phone-y="280"><svg viewBox="0 0 32 26" aria-hidden="true"><path class="wing wing-left" fill="#ff86b9" stroke="#fff1fa" stroke-width="1.4" d="M16 13C12 7 5 1 2 5c-3 5 2 11 12 10-7 2-9 6-6 8 3 2 7-2 8-7z"/><path class="wing wing-right" fill="#ffd56b" stroke="#fff8d6" stroke-width="1.4" d="M16 13c4-6 11-12 14-8 3 5-2 11-12 10 7 2 9 6 6 8-3 2-7-2-8-7z"/><path d="M16 10v12" stroke="#74406e" stroke-width="1.5" stroke-linecap="round"/><path d="M15 10c-2-4-4-4-5-4m7 4c2-4 4-4 5-4" fill="none" stroke="#74406e" stroke-width="1" stroke-linecap="round"/></svg></span>
+      <span class="butterfly mint" data-x="975" data-y="275" data-phone-x="786" data-phone-y="455"><svg viewBox="0 0 32 26" aria-hidden="true"><path class="wing wing-left" fill="#7ce2d0" stroke="#edfffa" stroke-width="1.4" d="M16 13C12 7 5 1 2 5c-3 5 2 11 12 10-7 2-9 6-6 8 3 2 7-2 8-7z"/><path class="wing wing-right" fill="#a8a1ff" stroke="#f4f1ff" stroke-width="1.4" d="M16 13c4-6 11-12 14-8 3 5-2 11-12 10 7 2 9 6 6 8-3 2-7-2-8-7z"/><path d="M16 10v12" stroke="#4b4d8e" stroke-width="1.5" stroke-linecap="round"/><path d="M15 10c-2-4-4-4-5-4m7 4c2-4 4-4 5-4" fill="none" stroke="#4b4d8e" stroke-width="1" stroke-linecap="round"/></svg></span>
+      <span class="butterfly lilac" data-x="1110" data-y="320" data-phone-x="820" data-phone-y="295"><svg viewBox="0 0 32 26" aria-hidden="true"><path class="wing wing-left" fill="#ffa77d" stroke="#fff3e7" stroke-width="1.4" d="M16 13C12 7 5 1 2 5c-3 5 2 11 12 10-7 2-9 6-6 8 3 2 7-2 8-7z"/><path class="wing wing-right" fill="#ffdf74" stroke="#fff8d6" stroke-width="1.4" d="M16 13c4-6 11-12 14-8 3 5-2 11-12 10 7 2 9 6 6 8-3 2-7-2-8-7z"/><path d="M16 10v12" stroke="#855143" stroke-width="1.5" stroke-linecap="round"/><path d="M15 10c-2-4-4-4-5-4m7 4c2-4 4-4 5-4" fill="none" stroke="#855143" stroke-width="1" stroke-linecap="round"/></svg></span>
+      <span class="twinkle-star" data-x="390" data-y="55" data-phone-x="210" data-phone-y="50"></span>
+      <span class="twinkle-star gold" data-x="930" data-y="110" data-phone-x="650" data-phone-y="80"></span>
+      <span class="twinkle-star rose" data-x="1490" data-y="510" data-phone-x="905" data-phone-y="480"></span>
+    </div>
+    <button class="start-hit" id="start" type="button" aria-label="Let the FUN begin!" title="Let the FUN begin!"></button>
+    <button class="music-toggle" id="music" type="button" aria-pressed="false" aria-label="Turn music on">♫ Music: Off</button>
+    <button class="voice-toggle" id="voiceToggle" type="button" aria-pressed="false" aria-label="Mute welcome voice">Voice: On</button>
+    <audio id="welcomeVoice" src="welcome-voice.mp3" preload="none"></audio>
+  </main>
+  <section class="menu" id="menu" aria-labelledby="menu-title" aria-hidden="true">
+    <div class="menu-card">
+      <h1 id="menu-title">Welcome, Little Learner!</h1>
+      <p>Your fun-packed learning adventure is ready. Choose a place to begin:</p>
+      <div class="activities" aria-label="Learning menu">
+        <div class="activity">🔤 ABC Garden</div><div class="activity">🔢 Number Meadow</div><div class="activity">🎨 Colour Corner</div>
+      </div>
+      <p>These are friendly menu previews. Learning activities are still being made.</p>
+      <button class="back" id="back" type="button">← Back to Cover</button>
+    </div>
+  </section>
+  <script>
+    (() => {
+      const cover = document.getElementById('cover');
+      const artwork = document.getElementById('artwork');
+      const decorations = document.getElementById('decorations');
+      const ornaments = [...decorations.querySelectorAll('[data-x][data-y]')];
+      const start = document.getElementById('start');
+      const music = document.getElementById('music');
+      const voiceToggle = document.getElementById('voiceToggle');
+      const welcomeVoice = document.getElementById('welcomeVoice');
+      const menu = document.getElementById('menu');
+      const back = document.getElementById('back');
+      let voiceMuted = false;
+      let lastVoiceTrigger = -Infinity;
+      let page2NavigationPending = false;
+      function placeDecorations() {
+        if (!artwork.naturalWidth || !artwork.naturalHeight) return;
+        const box = artwork.getBoundingClientRect();
+        const sourceWidth = artwork.naturalWidth, sourceHeight = artwork.naturalHeight;
+        const fullbleedPortrait = artwork.currentSrc.includes('page1-mobile-portrait-full.png');
+        const fullbleedLandscape = artwork.currentSrc.includes('page1-mobile-landscape-full.png');
+        const insetX = fullbleedPortrait ? (sourceWidth - 838) / 2 : fullbleedLandscape ? (sourceWidth - 924) / 2 : 0;
+        const scale = getComputedStyle(artwork).objectFit === 'cover'
+          ? Math.max(box.width / sourceWidth, box.height / sourceHeight)
+          : Math.min(box.width / sourceWidth, box.height / sourceHeight);
+        const scaleX = fullbleedLandscape ? box.width / sourceWidth : scale;
+        const scaleY = fullbleedLandscape ? box.height / sourceHeight : scale;
+        const drawnWidth = sourceWidth * scaleX, drawnHeight = sourceHeight * scaleY;
+        const sourceLeft = fullbleedLandscape ? -insetX : -(box.width - drawnWidth) / (2 * scaleX) - (fullbleedPortrait ? insetX : 0);
+        const sourceTop = fullbleedLandscape ? 0 : -(box.height - drawnHeight) / (2 * scaleY);
+        decorations.style.left = `${box.left + window.scrollX}px`;
+        decorations.style.top = `${box.top + window.scrollY}px`;
+        decorations.style.width = `${box.width}px`;
+        decorations.style.height = `${box.height}px`;
+        decorations.style.setProperty('--art-scale', Math.min(scaleX, scaleY));
+        for (const ornament of ornaments) {
+          const sourceX = sourceHeight > sourceWidth && ornament.dataset.phoneX ? Number(ornament.dataset.phoneX) : Number(ornament.dataset.x);
+          const sourceY = sourceHeight > sourceWidth && ornament.dataset.phoneY ? Number(ornament.dataset.phoneY) : Number(ornament.dataset.y);
+          const x = (sourceX - sourceLeft) * scaleX;
+          const y = (sourceY - sourceTop) * scaleY;
+          ornament.style.left = `${x}px`;
+          ornament.style.top = `${y}px`;
+          ornament.style.display = x < box.width && y < box.height && x > -45 && y > -45 ? '' : 'none';
+        }
+      }
+
+      // Map the hit target to the printed button in the single, proportional artwork image.
+      function placeHitArea() {
+        if (!artwork.naturalWidth) return;
+        const box = artwork.getBoundingClientRect();
+        const sourceWidth = artwork.naturalWidth, sourceHeight = artwork.naturalHeight;
+        const mobileLandscape = window.matchMedia('(pointer: coarse) and (orientation: landscape) and (max-height: 600px)').matches
+          || window.matchMedia('(max-width: 1100px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)').matches;
+        const laptopCover = window.matchMedia('(min-width: 1101px) and (orientation: landscape)').matches && !mobileLandscape;
+        const mobilePortrait = window.matchMedia('(max-width: 600px) and (orientation: portrait)').matches;
+        const tabletLandscape = window.matchMedia('(min-width: 701px) and (max-width: 1100px) and (min-height: 601px) and (orientation: landscape)').matches;
+        const tabletPortrait = window.matchMedia('(min-width: 601px) and (max-width: 1100px) and (orientation: portrait)').matches;
+        const fullbleedPortrait = artwork.currentSrc.includes('page1-mobile-portrait-full.png');
+        const fullbleedLandscape = artwork.currentSrc.includes('page1-mobile-landscape-full.png');
+        const chromeMobileCover = document.documentElement.classList.contains('android-chrome') && mobileLandscape;
+        const artworkXOffset = fullbleedPortrait ? (sourceWidth - 838) / 2 : fullbleedLandscape ? (sourceWidth - 924) / 2 : 0;
+        const scale = laptopCover || chromeMobileCover || getComputedStyle(artwork).objectFit === 'cover'
+          ? Math.max(box.width / sourceWidth, box.height / sourceHeight)
+          : Math.min(box.width / sourceWidth, box.height / sourceHeight);
+        const scaleX = fullbleedLandscape && !chromeMobileCover ? box.width / sourceWidth : scale;
+        const scaleY = fullbleedLandscape && !chromeMobileCover ? box.height / sourceHeight : scale;
+        const drawnWidth = sourceWidth * scaleX, drawnHeight = sourceHeight * scaleY;
+        const offsetX = (box.width - drawnWidth) / 2, offsetY = (box.height - drawnHeight) / 2;
+        const button = mobilePortrait
+          ? { x1: 515, y1: 1000, x2: 805, y2: 1225 }
+          : mobileLandscape
+            ? { x1: 560, y1: 205, x2: 720, y2: 322 }
+            : tabletPortrait
+          ? { x1: 330, y1: 1640, x2: 1205, y2: 1905 }
+          : tabletLandscape
+            ? { x1: 775, y1: 517, x2: 1120, y2: 706 }
+            : sourceHeight > sourceWidth
+              ? { x1: 365, y1: 1445, x2: 840, y2: 1705 }
+              : { x1: 850, y1: 388, x2: 1170, y2: 508 };
+        const x1 = (button.x1 + artworkXOffset) * scaleX + offsetX, x2 = (button.x2 + artworkXOffset) * scaleX + offsetX;
+        const y1 = button.y1 * scaleY + offsetY, y2 = button.y2 * scaleY + offsetY;
+        start.style.left = `${box.left + x1}px`;
+        start.style.top = `${box.top + y1}px`;
+        start.style.width = `${Math.max(0, x2 - x1)}px`;
+        start.style.height = `${Math.max(0, y2 - y1)}px`;
+      }
+      function updateResponsiveLayout() {
+        placeHitArea();
+        placeDecorations();
+      }
+      artwork.addEventListener('load', updateResponsiveLayout);
+      window.addEventListener('resize', updateResponsiveLayout, { passive: true });
+      if (artwork.complete) updateResponsiveLayout();
+      if ('ResizeObserver' in window) {
+        const artworkObserver = new ResizeObserver(updateResponsiveLayout);
+        artworkObserver.observe(artwork);
+      }
+
+      let audioContext = null, master = null, timer = null, nextTime = 0, step = 0, musicBusy = false;
+      const melody = [659.25, 783.99, 880, 783.99, 659.25, 587.33, 523.25, 587.33,
+        659.25, 783.99, 1046.5, 880, 783.99, 659.25, 587.33, 523.25];
+      function setMusicUI(isOn) {
+        music.setAttribute('aria-pressed', String(isOn));
+        music.setAttribute('aria-label', isOn ? 'Turn music off' : 'Turn music on');
+        music.textContent = isOn ? '♫ Music: On' : '♫ Music: Off';
+      }
+      function playNote(frequency, when, duration) {
+        const fundamental = audioContext.createOscillator();
+        const bell = audioContext.createOscillator();
+        const fundamentalGain = audioContext.createGain();
+        const bellGain = audioContext.createGain();
+        fundamental.type = 'sine'; fundamental.frequency.setValueAtTime(frequency, when);
+        bell.type = 'sine'; bell.frequency.setValueAtTime(frequency * 2.01, when);
+        fundamentalGain.gain.setValueAtTime(0.0001, when);
+        fundamentalGain.gain.linearRampToValueAtTime(0.14, when + 0.018);
+        fundamentalGain.gain.exponentialRampToValueAtTime(0.0001, when + duration);
+        bellGain.gain.setValueAtTime(0.0001, when);
+        bellGain.gain.linearRampToValueAtTime(0.022, when + 0.014);
+        bellGain.gain.exponentialRampToValueAtTime(0.0001, when + duration * 0.72);
+        fundamental.connect(fundamentalGain).connect(master);
+        bell.connect(bellGain).connect(master);
+        fundamental.start(when); bell.start(when);
+        fundamental.stop(when + duration + 0.025); bell.stop(when + duration + 0.025);
+      }
+      function scheduleMelody() {
+        if (!audioContext || audioContext.state !== 'running' || !master) return;
+        const horizon = audioContext.currentTime + 0.12;
+        while (nextTime < horizon) {
+          const frequency = melody[step % melody.length];
+          playNote(frequency, nextTime, 0.29);
+          if (step % 4 === 0) playNote(frequency / 2, nextTime, 0.25);
+          nextTime += 0.32;
+          step++;
+        }
+      }
+      function ensureAudioGraph() {
+        const Audio = window.AudioContext || window.webkitAudioContext;
+        if (!Audio) throw new Error('Web Audio is not supported in this browser.');
+        if (!audioContext) {
+          audioContext = new Audio();
+          master = audioContext.createGain();
+          master.gain.value = 0;
+          master.connect(audioContext.destination);
+          audioContext.addEventListener('statechange', () => {
+            if (audioContext.state !== 'running' && !musicBusy) {
+              clearInterval(timer); timer = null; setMusicUI(false);
+            }
+          });
+        }
+      }
+      async function turnMusicOn() {
+        // This is called directly by the trusted button click; create/resume before yielding.
+        ensureAudioGraph();
+        const resumePromise = audioContext.resume();
+        await resumePromise;
+        if (audioContext.state !== 'running') throw new Error('The browser did not resume audio playback.');
+        master.gain.cancelScheduledValues(audioContext.currentTime);
+        master.gain.setValueAtTime(master.gain.value, audioContext.currentTime);
+        master.gain.linearRampToValueAtTime(0.42, audioContext.currentTime + 0.7);
+        step = 0;
+        nextTime = audioContext.currentTime + 0.04;
+        clearInterval(timer);
+        scheduleMelody();
+        timer = window.setInterval(scheduleMelody, 40);
+        setMusicUI(true);
+        music.title = '';
+      }
+      async function turnMusicOff() {
+        clearInterval(timer); timer = null;
+        if (audioContext && master && audioContext.state === 'running') {
+          master.gain.cancelScheduledValues(audioContext.currentTime);
+          master.gain.setValueAtTime(master.gain.value, audioContext.currentTime);
+          master.gain.linearRampToValueAtTime(0.0001, audioContext.currentTime + 0.28);
+          await new Promise(resolve => window.setTimeout(resolve, 300));
+          await audioContext.suspend();
+        }
+        setMusicUI(false);
+      }
+      music.addEventListener('click', async () => {
+        if (musicBusy) return;
+        musicBusy = true;
+        music.disabled = true;
+        try {
+          if (music.getAttribute('aria-pressed') === 'true') await turnMusicOff();
+          else await turnMusicOn();
+        } catch (error) {
+          console.error('Could not start the generated music:', error);
+          clearInterval(timer); timer = null;
+          setMusicUI(false);
+          music.title = 'Audio could not start. Tap to try again.';
+        } finally {
+          musicBusy = false;
+          music.disabled = false;
+        }
+      });
+
+      voiceToggle.addEventListener('click', () => {
+        voiceMuted = !voiceMuted;
+        welcomeVoice.muted = voiceMuted;
+        voiceToggle.setAttribute('aria-pressed', String(voiceMuted));
+        voiceToggle.setAttribute('aria-label', voiceMuted ? 'Unmute welcome voice' : 'Mute welcome voice');
+        voiceToggle.textContent = voiceMuted ? 'Voice: Muted' : 'Voice: On';
+      });
+
+      function playWelcomeVoice() {
+        if (voiceMuted) return;
+        const now = performance.now();
+        if (now - lastVoiceTrigger < 650) return;
+        lastVoiceTrigger = now;
+        welcomeVoice.pause();
+        welcomeVoice.currentTime = 0;
+        const playback = welcomeVoice.play();
+        if (playback && typeof playback.catch === 'function') {
+          playback.catch(error => console.warn('Could not play the welcome voice:', error));
+        }
+        return playback || null;
+      }
+
+      function clickSound() {
+        try {
+          const Audio = window.AudioContext || window.webkitAudioContext;
+          if (!Audio) return;
+          const ctx = audioContext || new Audio();
+          if (!audioContext) audioContext = ctx;
+          const osc = ctx.createOscillator(), gain = ctx.createGain();
+          osc.type = 'sine'; osc.frequency.setValueAtTime(660, ctx.currentTime); osc.frequency.exponentialRampToValueAtTime(990, ctx.currentTime + 0.09);
+          gain.gain.setValueAtTime(0.0001, ctx.currentTime); gain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.012); gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.14);
+          osc.connect(gain).connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime + 0.15);
+        } catch (_) { /* Navigation remains available if audio is unavailable. */ }
+      }
+      start.addEventListener('pointerdown', () => start.classList.add('pointer-focused'));
+      window.addEventListener('keydown', event => {
+        if (event.key === 'Tab' || event.key === 'Enter' || event.key === ' ') start.classList.remove('pointer-focused');
+      });
+      start.addEventListener('click', () => {
+        if (page2NavigationPending) return;
+        page2NavigationPending = true;
+        const playback = playWelcomeVoice();
+        clickSound(); cover.classList.remove('sparkle'); void cover.offsetWidth; cover.classList.add('sparkle');
+        const goToPage2 = () => {
+          if (!page2NavigationPending) return;
+          page2NavigationPending = false;
+          window.location.href = 'page2.html';
+        };
+        if (!playback) { goToPage2(); return; }
+        welcomeVoice.addEventListener('ended', goToPage2, { once: true });
+        welcomeVoice.addEventListener('error', goToPage2, { once: true });
+        const waitMs = Number.isFinite(welcomeVoice.duration) ? Math.ceil(welcomeVoice.duration * 1000 + 1500) : 10000;
+        window.setTimeout(goToPage2, waitMs);
+        if (typeof playback.catch === 'function') playback.catch(goToPage2);
+      });
+      back.addEventListener('click', () => {
+        menu.classList.remove('open'); menu.setAttribute('aria-hidden', 'true'); start.focus();
+      });
+    })();
+  </script>
+</body>
+</html>

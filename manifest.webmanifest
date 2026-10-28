@@ -3,7 +3,7 @@
   "name": "Preschool Fun-packed Book",
   "short_name": "Preschool Fun",
   "description": "Fun preschool learning activities for young children.",
-  "start_url": "./index.html",
+  "start_url": "./page2.html",
   "scope": "./",
   "display": "standalone",
   "theme_color": "#43b9f4",
