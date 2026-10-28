@@ -15,10 +15,10 @@
     .art img { display: block; width: 100%; height: 100%; object-fit: fill; object-position: center; }
     .target { position: absolute; z-index: 1; display: block; border: 0; border-radius: 18%; padding: 0; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
     .target:focus-visible { outline: 4px solid #fff; outline-offset: -3px; box-shadow: 0 0 0 7px #087fc1; }
-    .letter.selected { outline: 5px solid #fff; outline-offset: -5px; background: #ffffff45; box-shadow: 0 0 0 8px #fa70ac99; }
-    .picture.touched { outline: 4px solid #fff; outline-offset: -4px; background: #ffffff35; box-shadow: 0 0 0 6px #ffca4388; }
+    .letter.selected { outline: 2px solid #fa70ac; outline-offset: 0; background: transparent; box-shadow: 0 0 0 1px #fff; }
+    .picture.touched { outline: 2px solid #ffca43; outline-offset: 0; background: transparent; box-shadow: 0 0 0 1px #fff; }
     .picture.correct { animation: celebrate .55s ease-in-out 2; }
-    @keyframes celebrate { 50% { transform: scale(1.08); box-shadow: 0 0 0 8px #ffe55c; background: #fff7a455; } }
+    @keyframes celebrate { 50% { transform: scale(1.03); box-shadow: 0 0 0 3px #ffe55c; background: transparent; } }
     .hud { position: absolute; z-index: 3; inset: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) auto max(10px, env(safe-area-inset-left)); display: flex; align-items: flex-start; justify-content: space-between; pointer-events: none; }
     .hud a, .music { pointer-events: auto; display: inline-flex; justify-content: center; align-items: center; min-height: 42px; padding: 8px 15px; border: 2px solid white; border-radius: 999px; background: #ffffffed; color: #21517e; box-shadow: 0 3px 10px #164b7940; font: 800 clamp(12px, 2.6vw, 17px)/1.1 system-ui, sans-serif; text-decoration: none; cursor: pointer; }
     .message { position: absolute; z-index: 4; left: 50%; top: 14%; width: min(88vw, 480px); transform: translate(-50%, -10px); padding: 12px 18px; border: 3px solid #fff; border-radius: 22px; background: #fff8dff2; color: #654023; box-shadow: 0 6px 18px #31578150; text-align: center; font: 900 clamp(17px, 3vw, 26px)/1.2 system-ui, sans-serif; opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s; }
