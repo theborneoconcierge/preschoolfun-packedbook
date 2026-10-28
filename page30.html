@@ -10,7 +10,8 @@
     * { box-sizing: border-box; }
     html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
     .game { position: fixed; inset: 0; width: 100vw; width: 100dvw; height: 100vh; height: 100dvh; overflow: hidden; background: #62c3f3; }
-    .art { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .art { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; }
+    .art picture { display: block; width: 100%; height: 100%; }
     .art img { display: block; width: 100%; height: 100%; object-fit: fill; }
     .target { position: absolute; z-index: 1; display: block; border: 0; border-radius: 18%; padding: 0; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
     .target:focus-visible { outline: 4px solid #fff; outline-offset: -3px; box-shadow: 0 0 0 7px #087fc1; }
@@ -24,24 +25,24 @@
     .message.good { background: #e2ffdfed; color: #236534; }
     .message.try { background: #fff2cfef; color: #704c26; }
     @media (orientation: landscape) {
-      .target.letter[data-letter="K"] { left: 10% !important; top: 49% !important; width: 8% !important; height: 20% !important; }
-      .target.letter[data-letter="A"] { left: 18% !important; top: 49% !important; width: 8% !important; height: 20% !important; }
-      .target.letter[data-letter="X"] { left: 25% !important; top: 49% !important; width: 8% !important; height: 20% !important; }
-      .target.letter[data-letter="B"] { left: 32% !important; top: 49% !important; width: 8% !important; height: 20% !important; }
-      .target.letter[data-letter="M"] { left: 39% !important; top: 49% !important; width: 8% !important; height: 20% !important; }
-      .target.letter[data-letter="R"] { left: 12% !important; top: 70% !important; width: 10% !important; height: 20% !important; }
-      .target.letter[data-letter="T"] { left: 21% !important; top: 70% !important; width: 9% !important; height: 20% !important; }
-      .target.letter[data-letter="P"] { left: 29% !important; top: 70% !important; width: 9% !important; height: 20% !important; }
-      .target.letter[data-letter="Q"] { left: 37% !important; top: 70% !important; width: 9% !important; height: 20% !important; }
+      .target.letter[data-letter="K"] { left: 10.5% !important; top: 51% !important; width: 7% !important; height: 17% !important; }
+      .target.letter[data-letter="A"] { left: 17.5% !important; top: 51% !important; width: 7% !important; height: 17% !important; }
+      .target.letter[data-letter="X"] { left: 24.5% !important; top: 51% !important; width: 7% !important; height: 17% !important; }
+      .target.letter[data-letter="B"] { left: 31.5% !important; top: 51% !important; width: 7% !important; height: 17% !important; }
+      .target.letter[data-letter="M"] { left: 38.5% !important; top: 51% !important; width: 7.5% !important; height: 17% !important; }
+      .target.letter[data-letter="R"] { left: 13% !important; top: 70% !important; width: 7% !important; height: 18% !important; }
+      .target.letter[data-letter="T"] { left: 20% !important; top: 70% !important; width: 7% !important; height: 18% !important; }
+      .target.letter[data-letter="P"] { left: 27% !important; top: 70% !important; width: 7% !important; height: 18% !important; }
+      .target.letter[data-letter="Q"] { left: 34% !important; top: 70% !important; width: 8% !important; height: 18% !important; }
       .target.picture[data-match="K"] { left: 48% !important; top: 46% !important; width: 11% !important; height: 21% !important; }
       .target.picture[data-match="R"] { left: 59% !important; top: 47% !important; width: 12% !important; height: 19% !important; }
       .target.picture[aria-label="Monkey"] { left: 70% !important; top: 45% !important; width: 10% !important; height: 22% !important; }
       .target.picture[data-match="A"] { left: 80% !important; top: 46% !important; width: 10% !important; height: 21% !important; }
-      .target.picture[data-match="B"] { left: 60% !important; top: 64% !important; width: 11% !important; height: 22% !important; }
+      .target.picture[data-match="B"] { left: 61% !important; top: 67% !important; width: 8% !important; height: 17% !important; }
       .target.picture[data-match="E"] { left: 48% !important; top: 66% !important; width: 12% !important; height: 25% !important; }
-      .target.picture[data-match="P"] { left: 72% !important; top: 63% !important; width: 11% !important; height: 21% !important; }
-      .target.picture[data-match="X"] { left: 73% !important; top: 77% !important; width: 11% !important; height: 20% !important; }
-      .target.picture[data-match="T"] { left: 64% !important; top: 76% !important; width: 11% !important; height: 21% !important; }
+      .target.picture[data-match="P"] { left: 72% !important; top: 63% !important; width: 8% !important; height: 19% !important; }
+      .target.picture[data-match="X"] { left: 73% !important; top: 77% !important; width: 9% !important; height: 17% !important; }
+      .target.picture[data-match="T"] { left: 65% !important; top: 76% !important; width: 8% !important; height: 18% !important; }
       .target.picture[data-match="Q"] { left: 82% !important; top: 66% !important; width: 11% !important; height: 29% !important; }
     }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
