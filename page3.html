@@ -82,6 +82,21 @@
       border: 2px solid #fff;
       box-shadow: 0 3px 12px rgb(0 0 0 / 35%);
     }
+
+    .page-navigation .map-back-control {
+      position: fixed;
+      left: max(.5rem, env(safe-area-inset-left, 0px));
+      width: auto;
+      min-width: 0;
+      padding: .65rem .8rem;
+      font-size: clamp(.75rem, 1.4vw, .95rem);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .page-navigation .map-back-control { top: auto; bottom: max(1rem, env(safe-area-inset-bottom, 0px)); left: max(.75rem, env(safe-area-inset-left, 0px)); transform: none; }
+    }
   </style>
 </head>
 <body>
@@ -97,7 +112,7 @@
       </div>
 
       <nav class="page-navigation" aria-label="Page navigation">
-        <a class="button" href="page2.html" aria-label="Back to menu" title="Back">←</a>
+        <a class="button map-back-control" href="early-literacy-adventure-map.html" aria-label="Back to Adventure Map" title="Back to Adventure Map">← Map</a>
         <a class="button" href="page4.html" aria-label="Start letter A" title="Next">→</a>
       </nav>
     </section>
