@@ -8,18 +8,36 @@
   <link rel="stylesheet" href="site-skeleton.css">
   <script src="home-button.js" defer></script>
   <title>Early Literacy Adventure Map | Preschool Fun-packed Book</title>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const updateViewport = () => {
+        const viewport = window.visualViewport;
+        root.style.setProperty('--visible-vw', `${viewport?.width || window.innerWidth}px`);
+        root.style.setProperty('--visible-vh', `${viewport?.height || window.innerHeight}px`);
+        root.style.setProperty('--visible-left', `${viewport?.offsetLeft || 0}px`);
+        root.style.setProperty('--visible-top', `${viewport?.offsetTop || 0}px`);
+      };
+      updateViewport();
+      window.addEventListener('resize', updateViewport, { passive: true });
+      window.visualViewport?.addEventListener('resize', updateViewport, { passive: true });
+      window.visualViewport?.addEventListener('scroll', updateViewport, { passive: true });
+      window.addEventListener('orientationchange', updateViewport, { passive: true });
+    })();
+  </script>
   <style>
     html, body { width: 100%; height: 100%; min-width: 0; min-height: 0; margin: 0; overflow: hidden; }
 
     .map-page {
       position: fixed;
-      inset: 0;
+      left: var(--visible-left, 0px);
+      top: var(--visible-top, 0px);
+      right: auto;
+      bottom: auto;
+      width: var(--visible-vw, 100vw);
+      height: var(--visible-vh, 100dvh);
       display: grid;
       place-items: center;
-      width: 100vw;
-      height: 100vh;
-      width: 100dvw;
-      height: 100dvh;
       overflow: hidden;
       background: #078fce;
     }
@@ -27,8 +45,8 @@
     .map-artboard {
       position: relative;
       flex: none;
-      width: min(100dvw, calc(100dvh * 2043 / 770));
-      height: min(100dvh, calc(100dvw * 770 / 2043));
+      width: min(var(--visible-vw, 100dvw), calc(var(--visible-vh, 100dvh) * 2043 / 770));
+      height: min(var(--visible-vh, 100dvh), calc(var(--visible-vw, 100dvw) * 770 / 2043));
       margin: 0;
       overflow: hidden;
       aspect-ratio: 2043 / 770;
@@ -63,8 +81,8 @@
 
     @media (orientation: portrait) {
       .map-artboard {
-        width: min(100dvw, calc(100dvh * 863 / 1823));
-        height: min(100dvh, calc(100dvw * 1823 / 863));
+        width: min(var(--visible-vw, 100dvw), calc(var(--visible-vh, 100dvh) * 863 / 1823));
+        height: min(var(--visible-vh, 100dvh), calc(var(--visible-vw, 100dvw) * 1823 / 863));
         aspect-ratio: 863 / 1823;
       }
       .map-artboard img { object-fit: contain; }
@@ -81,7 +99,7 @@
     }
 
     @media (max-aspect-ratio: 1 / 1) and (orientation: landscape) {
-      .map-artboard { width: min(100dvw, calc(100dvh * 2043 / 770)); height: min(100dvh, calc(100dvw * 770 / 2043)); }
+      .map-artboard { width: min(var(--visible-vw, 100dvw), calc(var(--visible-vh, 100dvh) * 2043 / 770)); height: min(var(--visible-vh, 100dvh), calc(var(--visible-vw, 100dvw) * 770 / 2043)); }
     }
 
     @media (prefers-reduced-motion: reduce) { .hotspot { scroll-behavior: auto; } }
