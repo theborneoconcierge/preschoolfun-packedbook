@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-title" content="Preschool Fun">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="stylesheet" href="site-skeleton.css">
-  <meta name="theme-color" content="#53b9f1">
+  <meta name="theme-color" content="#078fce">
   <title>Choose a Learning Panel | Preschool Fun-packed Book</title>
   <script>
     (() => {
@@ -111,7 +111,7 @@
     @media (max-width: 600px) and (orientation: portrait) {
       .page { display: grid; grid-template-rows: minmax(0, 1fr); width: 100dvw; height: 100dvh; gap: 0; }
       .artboard { justify-self: center; align-self: center; width: min(100dvw, calc(100dvh * 589 / 1197)); height: auto; margin: 0; aspect-ratio: 589 / 1197; }
-      .artboard img { object-fit: cover; object-position: center; }
+      .artboard img { object-fit: contain; object-position: center; }
       .panel-link { left: var(--x-portrait); top: var(--y-portrait); width: var(--w-portrait); height: var(--h-portrait); }
       .butterfly--one { left: 3%; top: 86%; }
       .butterfly--two { right: 3%; top: 86%; }
@@ -152,14 +152,14 @@
       body::before { display: none; }
       .page { position: relative; display: grid; grid-template-rows: minmax(0, 1fr); width: 100%; }
       .artboard { justify-self: stretch; align-self: stretch; width: 100%; height: 100%; aspect-ratio: auto; }
-      .artboard img { object-fit: cover; object-position: center; }
+      .artboard img { object-fit: contain; object-position: center; }
       .page-nav { position: absolute; z-index: 5; inset: auto 4px 12px; justify-content: space-between; padding: 0; pointer-events: none; }
       .page-nav > * { pointer-events: auto; }
     }
     @media (pointer: coarse) and (orientation: portrait) and (max-height: 1000px) {
       .page { position: relative; z-index: 1; grid-template-rows: minmax(0, 1fr); width: 100dvw; height: 100dvh; gap: 0; }
       .artboard { justify-self: stretch; align-self: stretch; width: 100dvw; height: 100dvh; margin: 0; aspect-ratio: auto; }
-      .artboard img { object-fit: cover; object-position: center; }
+      .artboard img { object-fit: contain; object-position: center; }
       .panel-link { left: var(--x-portrait); top: var(--y-portrait); width: var(--w-portrait); height: var(--h-portrait); }
       body::before { display: none; }
     }
@@ -176,7 +176,7 @@
     @media (pointer: coarse) and (orientation: portrait) and (max-height: 1000px) {
       html.android-chrome .page { width: var(--android-chrome-vw, 100dvw); height: var(--android-chrome-vh, 100dvh); }
       html.android-chrome .artboard { width: var(--android-chrome-vw, 100dvw); height: var(--android-chrome-vh, 100dvh); }
-      html.android-chrome .artboard img { object-fit: cover; object-position: center; }
+      html.android-chrome .artboard img { object-fit: contain; object-position: center; }
     }
     @media (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
       html.android-chrome .page { width: var(--android-chrome-vw, 100dvw); height: var(--android-chrome-vh, 100dvh); }
@@ -194,7 +194,7 @@
 <body class="home-page">
   <main class="page app-viewport" id="page2-top">
     <figure class="artboard" aria-label="Afri's nine learning panels">
-      <picture><source media="(display-mode: browser) and (pointer: coarse) and (orientation: portrait) and (max-height: 1000px)" srcset="page2-mobile-portrait-full.png?v=20261026-fullscreen"><source media="(display-mode: browser) and (pointer: coarse) and (orientation: landscape) and (max-height: 600px)" srcset="page2-mobile-landscape-full.png?v=20261026-fullscreen"><source media="(pointer: coarse) and (orientation: portrait) and (max-height: 1000px)" srcset="page2-mobile-portrait-viewport.png?v=20261026-viewport3"><source media="(pointer: coarse) and (orientation: landscape) and (max-height: 600px)" srcset="page2-mobile-landscape-viewport.png?v=20261026-viewport3"><source media="(max-width: 600px) and (orientation: portrait)" srcset="page2-mobile-portrait-viewport.png?v=20261026-viewport3"><source media="(max-width: 1023px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-mobile-landscape-viewport.png?v=20261026-viewport3"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 900px) and (orientation: portrait)" srcset="page2-tablet-portrait.png"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 600px) and (max-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-tablet-landscape.png"><source media="(min-width: 1240px) and (orientation: landscape)" srcset="page2-laptop.png"><img src="Afri%209%20Panels.jpg" alt="Afri waves beside the greeting, Hello there! Which one shall we play today? Below are nine panels: ABC, numbers, puzzles, exploring the world, kindness, cooking, shapes, art, and reading."></picture>
+      <picture><source media="(display-mode: browser) and (pointer: coarse) and (orientation: portrait) and (max-height: 1000px)" srcset="page2-mobile-portrait-viewport.png?v=20261029-android-fit"><source media="(display-mode: browser) and (pointer: coarse) and (orientation: landscape) and (max-height: 600px)" srcset="page2-mobile-landscape-full.png?v=20261026-fullscreen"><source media="(pointer: coarse) and (orientation: portrait) and (max-height: 1000px)" srcset="page2-mobile-portrait-viewport.png?v=20261029-android-fit"><source media="(pointer: coarse) and (orientation: landscape) and (max-height: 600px)" srcset="page2-mobile-landscape-full.png?v=20261026-fullscreen"><source media="(max-width: 600px) and (orientation: portrait)" srcset="page2-mobile-portrait-viewport.png?v=20261029-android-fit"><source media="(max-width: 1023px) and (min-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-mobile-landscape-viewport.png?v=20261026-viewport3"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 900px) and (orientation: portrait)" srcset="page2-tablet-portrait.png"><source media="(min-width: 768px) and (max-width: 1239px) and (min-height: 600px) and (max-aspect-ratio: 7 / 4) and (orientation: landscape)" srcset="page2-tablet-landscape.png"><source media="(min-width: 1240px) and (orientation: landscape)" srcset="page2-laptop.png"><img src="Afri%209%20Panels.jpg" alt="Afri waves beside the greeting, Hello there! Which one shall we play today? Below are nine panels: ABC, numbers, puzzles, exploring the world, kindness, cooking, shapes, art, and reading."></picture>
       <a class="panel-link" style="--x-wide:6%;--y-wide:24.4%;--w-wide:29.4%;--h-wide:22.7%;--x-tall:2.2%;--y-tall:31.4%;--w-tall:32.2%;--h-tall:17.6%;--x-portrait:1.2%;--y-portrait:32.2%;--w-portrait:32%;--h-portrait:17%" href="early-literacy-adventure-map.html" aria-label="Open Early Literacy Adventure Map"></a>
       <a class="panel-link" style="--x-wide:36.2%;--y-wide:24.4%;--w-wide:29%;--h-wide:22.7%;--x-tall:35.2%;--y-tall:31.4%;--w-tall:31.6%;--h-tall:17.6%;--x-portrait:34.7%;--y-portrait:32.2%;--w-portrait:31%;--h-portrait:17%" href="early-math.html" aria-label="Open Early Math"></a>
       <a class="panel-link" style="--x-wide:65.5%;--y-wide:24.4%;--w-wide:30.2%;--h-wide:22.7%;--x-tall:66.4%;--y-tall:31.4%;--w-tall:32%;--h-tall:17.6%;--x-portrait:66.5%;--y-portrait:32.2%;--w-portrait:31.5%;--h-portrait:17%" href="thinking-skills.html" aria-label="Open Thinking Skills"></a>
