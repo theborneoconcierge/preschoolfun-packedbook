@@ -150,6 +150,31 @@
         aspect-ratio: auto;
       }
       .artboard img { object-fit: fill; object-position: center; }
+      .page-nav.artwork-positioned.artwork-visible-controls {
+        position: fixed !important;
+        inset: auto 0 max(72px, env(safe-area-inset-bottom, 0px)) !important;
+        width: 100dvw !important;
+        height: 52px !important;
+        z-index: 10;
+      }
+      .page-nav.artwork-positioned.artwork-visible-controls > * {
+        top: 0 !important;
+        bottom: auto !important;
+        height: 48px;
+        padding: 8px 18px;
+        border: 2px solid #fff;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #1685ff, #0757e8);
+        color: #fff;
+        font-size: clamp(14px, 2vw, 20px);
+        font-weight: 800;
+        line-height: 1;
+        text-decoration: none;
+        white-space: nowrap;
+        box-shadow: 0 3px 8px rgb(16 54 105 / 42%);
+      }
+      .page-nav.artwork-positioned.artwork-visible-controls > a { left: 2% !important; width: min(30%, 260px) !important; }
+      .page-nav.artwork-positioned.artwork-visible-controls > .music-toggle { right: 2% !important; width: min(28%, 230px) !important; }
     }
     @media (min-width: 1240px) and (orientation: landscape) {
       body::before { display: none; }
@@ -550,6 +575,7 @@
           ? [[0.184, 0.878, 0.326, 0.046], [0.544, 0.878, 0.276, 0.046]]
           : null;
       const mobileArtworkHasPrintedControls = /page2-mobile-(portrait|landscape)-(full|viewport)\.png$/.test(imageName);
+      const tabletLandscapeControls = tabletLandscapeMedia.matches;
       const controlsFit = Boolean(artworkButtons) && (mobileArtworkHasPrintedControls || artworkButtons.every(([x, y, width, height]) => {
         const left = offsetX + drawnWidth * x;
         const top = offsetY + drawnHeight * y;
@@ -557,8 +583,8 @@
       }));
 
       pageNav.classList.add('artwork-positioned');
-      pageNav.classList.toggle('artwork-hit-areas', Boolean(controlsFit));
-      pageNav.classList.toggle('artwork-visible-controls', !controlsFit);
+      pageNav.classList.toggle('artwork-hit-areas', Boolean(controlsFit) && !tabletLandscapeControls);
+      pageNav.classList.toggle('artwork-visible-controls', !controlsFit || tabletLandscapeControls);
       Object.assign(pageNav.style, {
         left: `${board.left + (controlsFit ? offsetX : 0)}px`,
         top: `${board.top + (controlsFit ? offsetY : 0)}px`,
