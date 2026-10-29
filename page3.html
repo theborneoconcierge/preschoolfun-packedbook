@@ -17,16 +17,25 @@
       const root = document.documentElement;
       const updateViewport = () => {
         const viewport = window.visualViewport;
-        root.style.setProperty('--visible-vw', `${viewport?.width || window.innerWidth}px`);
-        root.style.setProperty('--visible-vh', `${viewport?.height || window.innerHeight}px`);
-        root.style.setProperty('--visible-left', `${viewport?.offsetLeft || 0}px`);
-        root.style.setProperty('--visible-top', `${viewport?.offsetTop || 0}px`);
+        root.style.setProperty('--visible-vw', `${viewport?.width || document.documentElement.clientWidth || window.innerWidth}px`);
+        root.style.setProperty('--visible-vh', `${viewport?.height || document.documentElement.clientHeight || window.innerHeight}px`);
       };
-      updateViewport();
-      window.addEventListener('resize', updateViewport, { passive: true });
-      window.visualViewport?.addEventListener('resize', updateViewport, { passive: true });
-      window.visualViewport?.addEventListener('scroll', updateViewport, { passive: true });
-      window.addEventListener('orientationchange', updateViewport, { passive: true });
+      const refreshViewport = () => {
+        updateViewport();
+        requestAnimationFrame(updateViewport);
+        [80, 240, 600].forEach((delay) => window.setTimeout(updateViewport, delay));
+      };
+      refreshViewport();
+      window.addEventListener('resize', refreshViewport, { passive: true });
+      window.visualViewport?.addEventListener('resize', refreshViewport, { passive: true });
+      window.visualViewport?.addEventListener('scroll', refreshViewport, { passive: true });
+      window.addEventListener('orientationchange', refreshViewport, { passive: true });
+      window.addEventListener('pageshow', refreshViewport, { passive: true });
+      window.screen.orientation?.addEventListener?.('change', refreshViewport);
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) refreshViewport();
+      }, { passive: true });
+      window.matchMedia('(orientation: portrait)').addEventListener?.('change', refreshViewport);
     })();
   </script>
   <style>
@@ -34,8 +43,8 @@
 
     .page3-stage {
       position: fixed;
-      left: var(--visible-left, 0px);
-      top: var(--visible-top, 0px);
+      left: 0;
+      top: 0;
       width: var(--visible-vw, 100vw);
       height: var(--visible-vh, 100dvh);
       display: grid;
@@ -145,7 +154,7 @@
     .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
     @media (max-width: 600px) {
-      .page-navigation .map-back-control { top: auto; bottom: max(1.5rem, env(safe-area-inset-bottom, 0px)); left: max(.75rem, env(safe-area-inset-left, 0px)); transform: none; width: 2.125rem; height: 2.125rem; }
+      .page-navigation .map-back-control { top: auto; bottom: max(1.5rem, env(safe-area-inset-bottom, 0px)); left: max(.75rem, env(safe-area-inset-left, 0px)); transform: none; width: 2.5rem; height: 2.5rem; }
       .video-activity-links { top: auto; right: max(.75rem, env(safe-area-inset-right, 0px)); bottom: max(1.5rem, env(safe-area-inset-bottom, 0px)); transform: none; }
       .video-activity-links a { width: 2.5rem; border-radius: .5rem; }
     }

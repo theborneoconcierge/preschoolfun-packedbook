@@ -15,14 +15,18 @@
         const viewport = window.visualViewport;
         root.style.setProperty('--visible-vw', `${viewport?.width || window.innerWidth}px`);
         root.style.setProperty('--visible-vh', `${viewport?.height || window.innerHeight}px`);
-        root.style.setProperty('--visible-left', `${viewport?.offsetLeft || 0}px`);
-        root.style.setProperty('--visible-top', `${viewport?.offsetTop || 0}px`);
       };
-      updateViewport();
-      window.addEventListener('resize', updateViewport, { passive: true });
-      window.visualViewport?.addEventListener('resize', updateViewport, { passive: true });
-      window.visualViewport?.addEventListener('scroll', updateViewport, { passive: true });
-      window.addEventListener('orientationchange', updateViewport, { passive: true });
+      const refreshViewport = () => {
+        updateViewport();
+        requestAnimationFrame(updateViewport);
+        [80, 240, 600].forEach((delay) => window.setTimeout(updateViewport, delay));
+      };
+      refreshViewport();
+      window.addEventListener('resize', refreshViewport, { passive: true });
+      window.visualViewport?.addEventListener('resize', refreshViewport, { passive: true });
+      window.addEventListener('orientationchange', refreshViewport, { passive: true });
+      window.screen.orientation?.addEventListener?.('change', refreshViewport);
+      window.addEventListener('pageshow', refreshViewport, { passive: true });
     })();
   </script>
   <style>
@@ -30,10 +34,8 @@
 
     .map-page {
       position: fixed;
-      left: var(--visible-left, 0px);
-      top: var(--visible-top, 0px);
-      right: auto;
-      bottom: auto;
+      left: 0;
+      top: 0;
       width: var(--visible-vw, 100vw);
       height: var(--visible-vh, 100dvh);
       display: grid;
@@ -45,8 +47,8 @@
     .map-artboard {
       position: relative;
       flex: none;
-      width: min(var(--visible-vw, 100dvw), calc(var(--visible-vh, 100dvh) * 2043 / 770));
-      height: min(var(--visible-vh, 100dvh), calc(var(--visible-vw, 100dvw) * 770 / 2043));
+      width: 100%;
+      height: 100%;
       margin: 0;
       overflow: hidden;
       aspect-ratio: 2043 / 770;
@@ -59,7 +61,7 @@
       height: 100%;
     }
 
-    .map-artboard img { object-fit: contain; object-position: center; }
+    .map-artboard img { object-fit: fill; object-position: center; }
 
     .hotspot-set { position: absolute; inset: 0; display: none; pointer-events: none; }
     .hotspot { position: absolute; display: block; border: 0; border-radius: 20%; padding: 0; background: transparent; color: transparent; cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent; }
@@ -81,11 +83,11 @@
 
     @media (orientation: portrait) {
       .map-artboard {
-        width: min(var(--visible-vw, 100dvw), calc(var(--visible-vh, 100dvh) * 863 / 1823));
-        height: min(var(--visible-vh, 100dvh), calc(var(--visible-vw, 100dvw) * 1823 / 863));
-        aspect-ratio: 863 / 1823;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: auto;
       }
-      .map-artboard img { object-fit: contain; }
+      .map-artboard img { object-fit: fill; }
       .hotspot-set--portrait { display: block; }
       .hotspot-set--landscape { display: none; }
       .hs-abc { left: 59%; top: 32%; width: 40%; height: 18%; }
@@ -99,7 +101,7 @@
     }
 
     @media (max-aspect-ratio: 1 / 1) and (orientation: landscape) {
-      .map-artboard { width: min(var(--visible-vw, 100dvw), calc(var(--visible-vh, 100dvh) * 2043 / 770)); height: min(var(--visible-vh, 100dvh), calc(var(--visible-vw, 100dvw) * 770 / 2043)); }
+      .map-artboard { width: 100%; height: 100%; aspect-ratio: auto; }
     }
 
     @media (prefers-reduced-motion: reduce) { .hotspot { scroll-behavior: auto; } }
