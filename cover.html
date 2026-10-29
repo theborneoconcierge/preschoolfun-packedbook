@@ -256,7 +256,7 @@
         artworkObserver.observe(artwork);
       }
 
-      let audioContext = null, master = null, timer = null, nextTime = 0, step = 0, musicBusy = false;
+      let audioContext = null, master = null, audioStateListenerInstalled = false, timer = null, nextTime = 0, step = 0, musicBusy = false;
       const melody = [659.25, 783.99, 880, 783.99, 659.25, 587.33, 523.25, 587.33,
         659.25, 783.99, 1046.5, 880, 783.99, 659.25, 587.33, 523.25];
       function setMusicUI(isOn) {
@@ -296,16 +296,21 @@
       function ensureAudioGraph() {
         const Audio = window.AudioContext || window.webkitAudioContext;
         if (!Audio) throw new Error('Web Audio is not supported in this browser.');
-        if (!audioContext) {
-          audioContext = new Audio();
+        // The start-button click sound can create the context before the music graph.
+        // Build the graph whenever its master node is missing, not only on first context creation.
+        if (!audioContext) audioContext = new Audio();
+        if (!master) {
           master = audioContext.createGain();
           master.gain.value = 0;
           master.connect(audioContext.destination);
+        }
+        if (!audioStateListenerInstalled) {
           audioContext.addEventListener('statechange', () => {
             if (audioContext.state !== 'running' && !musicBusy) {
               clearInterval(timer); timer = null; setMusicUI(false);
             }
           });
+          audioStateListenerInstalled = true;
         }
       }
       async function turnMusicOn() {
