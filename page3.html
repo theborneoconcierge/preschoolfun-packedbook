@@ -94,8 +94,28 @@
       white-space: nowrap;
     }
 
+    .video-activity-links {
+      position: fixed;
+      top: 50%;
+      right: max(.5rem, env(safe-area-inset-right, 0px));
+      display: grid;
+      gap: .65rem;
+      transform: translateY(-50%);
+    }
+
+    .page-navigation .video-activity-links .button {
+      width: auto;
+      min-height: 3rem;
+      padding: .65rem .85rem;
+      border-radius: 999px;
+      font-size: clamp(.75rem, 1.4vw, .95rem);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
     @media (max-width: 600px) {
       .page-navigation .map-back-control { top: auto; bottom: max(1rem, env(safe-area-inset-bottom, 0px)); left: max(.75rem, env(safe-area-inset-left, 0px)); transform: none; }
+      .video-activity-links { top: auto; right: max(.75rem, env(safe-area-inset-right, 0px)); bottom: max(1rem, env(safe-area-inset-bottom, 0px)); transform: none; }
     }
   </style>
 </head>
@@ -113,7 +133,10 @@
 
       <nav class="page-navigation" aria-label="Page navigation">
         <a class="button map-back-control" href="early-literacy-adventure-map.html" aria-label="Back to Adventure Map" title="Back to Adventure Map">← Map</a>
-        <a class="button" href="page4.html" aria-label="Start letter A" title="Next">→</a>
+        <div class="video-activity-links" aria-label="More ABC activities">
+          <a class="button" href="page4.html">Flashcards →</a>
+          <a class="button" href="page30.html">Letter Detectives</a>
+        </div>
       </nav>
     </section>
   </main>
